@@ -56,6 +56,7 @@
       <div class="hidden md:flex items-center gap-8 text-sm text-gray-500">
         <a href="#caracteristicas" class="hover:text-gray-900 transition-colors">Características</a>
         <a href="#como-funciona" class="hover:text-gray-900 transition-colors">Cómo funciona</a>
+        <a href="#guia" class="hover:text-gray-900 transition-colors">Guía</a>
         <a href="#precios" class="hover:text-gray-900 transition-colors">Precios</a>
       </div>
       <a href="https://app.consultaperuapi.com" target="_blank"
@@ -82,7 +83,7 @@
       <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
         <a href="https://app.consultaperuapi.com" target="_blank"
           class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm shadow-sm">
-          Comenzar gratis →
+          Comenzar →
         </a>
         <a href="#como-funciona"
           class="w-full sm:w-auto bg-white hover:bg-gray-50 text-gray-700 font-medium px-6 py-3 rounded-xl transition-colors text-sm border border-gray-200">
@@ -246,6 +247,198 @@
       </div>
     </div>
   </section>
+
+  <!-- GUÍA -->
+  <section id="guia" class="py-24 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16">
+        <p class="text-sm font-medium text-blue-600 mb-3">Guía de integración</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Ejemplos de código</h2>
+        <p class="text-gray-500 mt-3 text-sm">Integra la API en tu lenguaje favorito en minutos.</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex gap-2 mb-4 flex-wrap">
+        <button onclick="showTab('curl')" id="tab-curl"
+          class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-blue-600 text-white">
+          cURL
+        </button>
+        <button onclick="showTab('python')" id="tab-python"
+          class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200">
+          Python
+        </button>
+        <button onclick="showTab('javascript')" id="tab-javascript"
+          class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200">
+          JavaScript
+        </button>
+        <button onclick="showTab('php')" id="tab-php"
+          class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200">
+          PHP
+        </button>
+      </div>
+
+      <!-- cURL -->
+      <div id="panel-curl" class="tab-panel">
+        <div class="code-block shadow-xl shadow-gray-100">
+          <div class="flex items-center gap-2 px-5 py-3 border-b border-white/10">
+            <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+            <span class="ml-3 text-xs text-gray-400 font-mono">consulta.sh</span>
+          </div>
+          <pre class="p-6 text-sm leading-relaxed overflow-x-auto"><code><span class="text-gray-400"># Consulta un RUC</span>
+<span class="text-blue-400">curl</span> <span class="text-green-400">-X GET</span> \
+  <span class="text-yellow-300">"https://app.consultaperuapi.com/api/ruc/20601138572"</span> \
+  <span class="text-blue-300">-H</span> <span class="text-yellow-300">"Authorization: Bearer <span class="text-orange-300">tu_api_key</span>"</span>
+
+<span class="text-gray-400"># Respuesta</span>
+<span class="text-gray-300">{</span>
+  <span class="text-blue-300">"ruc"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"20601138572"</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"razonSocial"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"EMPRESA EJEMPLO S.A.C."</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"estado"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"ACTIVO"</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"condicion"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"HABIDO"</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"direccion"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"AV. EJEMPLO 123, LIMA"</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"ubigeo"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"LIMA, LIMA, LIMA"</span>
+<span class="text-gray-300">}</span></code></pre>
+        </div>
+      </div>
+
+      <!-- Python -->
+      <div id="panel-python" class="tab-panel hidden">
+        <div class="code-block shadow-xl shadow-gray-100">
+          <div class="flex items-center gap-2 px-5 py-3 border-b border-white/10">
+            <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+            <span class="ml-3 text-xs text-gray-400 font-mono">consulta.py</span>
+          </div>
+          <pre class="p-6 text-sm leading-relaxed overflow-x-auto"><code><span class="text-blue-400">import</span> <span class="text-gray-300">requests</span>
+
+<span class="text-gray-400"># Configura tu API Key</span>
+<span class="text-green-400">API_KEY</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"<span class="text-orange-300">tu_api_key</span>"</span>
+<span class="text-green-400">RUC</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"20601138572"</span>
+
+<span class="text-green-400">headers</span> <span class="text-gray-300">=</span> <span class="text-gray-300">{</span>
+    <span class="text-yellow-300">"Authorization"</span><span class="text-gray-300">:</span> <span class="text-blue-400">f</span><span class="text-yellow-300">"Bearer {API_KEY}"</span>
+<span class="text-gray-300">}</span>
+
+<span class="text-green-400">response</span> <span class="text-gray-300">=</span> <span class="text-gray-300">requests.</span><span class="text-blue-400">get</span><span class="text-gray-300">(</span>
+    <span class="text-blue-400">f</span><span class="text-yellow-300">"https://app.consultaperuapi.com/api/ruc/{RUC}"</span><span class="text-gray-300">,</span>
+    <span class="text-green-400">headers</span><span class="text-gray-300">=headers</span>
+<span class="text-gray-300">)</span>
+
+<span class="text-green-400">data</span> <span class="text-gray-300">=</span> <span class="text-gray-300">response.</span><span class="text-blue-400">json</span><span class="text-gray-300">()</span>
+<span class="text-blue-400">print</span><span class="text-gray-300">(data[</span><span class="text-yellow-300">"razonSocial"</span><span class="text-gray-300">])</span>  <span class="text-gray-400"># "EMPRESA EJEMPLO S.A.C."</span>
+<span class="text-blue-400">print</span><span class="text-gray-300">(data[</span><span class="text-yellow-300">"estado"</span><span class="text-gray-300">])</span>      <span class="text-gray-400"># "ACTIVO"</span></code></pre>
+        </div>
+      </div>
+
+      <!-- JavaScript -->
+      <div id="panel-javascript" class="tab-panel hidden">
+        <div class="code-block shadow-xl shadow-gray-100">
+          <div class="flex items-center gap-2 px-5 py-3 border-b border-white/10">
+            <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+            <span class="ml-3 text-xs text-gray-400 font-mono">consulta.js</span>
+          </div>
+          <pre class="p-6 text-sm leading-relaxed overflow-x-auto"><code><span class="text-gray-400">// Configura tu API Key</span>
+<span class="text-blue-400">const</span> <span class="text-green-400">API_KEY</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"<span class="text-orange-300">tu_api_key</span>"</span><span class="text-gray-300">;</span>
+<span class="text-blue-400">const</span> <span class="text-green-400">ruc</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"20601138572"</span><span class="text-gray-300">;</span>
+
+<span class="text-blue-400">const</span> <span class="text-green-400">response</span> <span class="text-gray-300">=</span> <span class="text-blue-400">await</span> <span class="text-gray-300">fetch(</span>
+  <span class="text-blue-400">`https://app.consultaperuapi.com/api/ruc/${</span><span class="text-green-400">ruc</span><span class="text-blue-400">}`</span><span class="text-gray-300">,</span>
+  <span class="text-gray-300">{</span>
+    <span class="text-green-400">headers</span><span class="text-gray-300">: {</span>
+      <span class="text-yellow-300">"Authorization"</span><span class="text-gray-300">:</span> <span class="text-blue-400">`Bearer ${</span><span class="text-green-400">API_KEY</span><span class="text-blue-400">}`</span>
+    <span class="text-gray-300">}</span>
+  <span class="text-gray-300">}</span>
+<span class="text-gray-300">);</span>
+
+<span class="text-blue-400">const</span> <span class="text-green-400">data</span> <span class="text-gray-300">=</span> <span class="text-blue-400">await</span> <span class="text-green-400">response</span><span class="text-gray-300">.</span><span class="text-blue-400">json</span><span class="text-gray-300">();</span>
+<span class="text-gray-300">console.</span><span class="text-blue-400">log</span><span class="text-gray-300">(</span><span class="text-green-400">data</span><span class="text-gray-300">.</span><span class="text-green-400">razonSocial</span><span class="text-gray-300">);</span>  <span class="text-gray-400">// "EMPRESA EJEMPLO S.A.C."</span>
+<span class="text-gray-300">console.</span><span class="text-blue-400">log</span><span class="text-gray-300">(</span><span class="text-green-400">data</span><span class="text-gray-300">.</span><span class="text-green-400">estado</span><span class="text-gray-300">);</span>       <span class="text-gray-400">// "ACTIVO"</span></code></pre>
+        </div>
+      </div>
+
+      <!-- PHP -->
+      <div id="panel-php" class="tab-panel hidden">
+        <div class="code-block shadow-xl shadow-gray-100">
+          <div class="flex items-center gap-2 px-5 py-3 border-b border-white/10">
+            <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+            <span class="ml-3 text-xs text-gray-400 font-mono">consulta.php</span>
+          </div>
+          <pre class="p-6 text-sm leading-relaxed overflow-x-auto"><code><span class="text-blue-400">&lt;?php</span>
+
+<span class="text-gray-400">// Configura tu API Key</span>
+<span class="text-green-400">$apiKey</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"<span class="text-orange-300">tu_api_key</span>"</span><span class="text-gray-300">;</span>
+<span class="text-green-400">$ruc</span>    <span class="text-gray-300">=</span> <span class="text-yellow-300">"20601138572"</span><span class="text-gray-300">;</span>
+<span class="text-green-400">$url</span>    <span class="text-gray-300">=</span> <span class="text-yellow-300">"https://app.consultaperuapi.com/api/ruc/{</span><span class="text-green-400">$ruc</span><span class="text-yellow-300">}"</span><span class="text-gray-300">;</span>
+
+<span class="text-green-400">$ch</span> <span class="text-gray-300">=</span> <span class="text-blue-400">curl_init</span><span class="text-gray-300">(</span><span class="text-green-400">$url</span><span class="text-gray-300">);</span>
+<span class="text-blue-400">curl_setopt_array</span><span class="text-gray-300">(</span><span class="text-green-400">$ch</span><span class="text-gray-300">, [</span>
+    <span class="text-gray-300">CURLOPT_RETURNTRANSFER =></span> <span class="text-blue-400">true</span><span class="text-gray-300">,</span>
+    <span class="text-gray-300">CURLOPT_HTTPHEADER     => [</span>
+        <span class="text-yellow-300">"Authorization: Bearer {</span><span class="text-green-400">$apiKey</span><span class="text-yellow-300">}"</span>
+    <span class="text-gray-300">]</span>
+<span class="text-gray-300">]);</span>
+
+<span class="text-green-400">$body</span> <span class="text-gray-300">=</span> <span class="text-blue-400">curl_exec</span><span class="text-gray-300">(</span><span class="text-green-400">$ch</span><span class="text-gray-300">);</span>
+<span class="text-green-400">$data</span> <span class="text-gray-300">=</span> <span class="text-blue-400">json_decode</span><span class="text-gray-300">(</span><span class="text-green-400">$body</span><span class="text-gray-300">);</span>
+
+<span class="text-blue-400">echo</span> <span class="text-green-400">$data</span><span class="text-gray-300">->razonSocial;</span>  <span class="text-gray-400">// "EMPRESA EJEMPLO S.A.C."</span>
+<span class="text-blue-400">echo</span> <span class="text-green-400">$data</span><span class="text-gray-300">->estado;</span>       <span class="text-gray-400">// "ACTIVO"</span></code></pre>
+        </div>
+      </div>
+
+      <!-- Nota de campos de respuesta -->
+      <div class="mt-8 bg-gray-50 rounded-2xl border border-gray-200 p-6">
+        <h3 class="font-semibold text-gray-900 mb-4 text-sm">Campos de la respuesta</h3>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div class="flex items-start gap-3">
+            <code class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0">ruc</code>
+            <p class="text-xs text-gray-500 pt-1">Número de RUC del contribuyente (11 dígitos)</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <code class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0">razonSocial</code>
+            <p class="text-xs text-gray-500 pt-1">Nombre o razón social registrada en SUNAT</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <code class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0">estado</code>
+            <p class="text-xs text-gray-500 pt-1">Estado del contribuyente: ACTIVO, BAJA, etc.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <code class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0">condicion</code>
+            <p class="text-xs text-gray-500 pt-1">Condición de domicilio: HABIDO, NO HABIDO, etc.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <code class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0">direccion</code>
+            <p class="text-xs text-gray-500 pt-1">Domicilio fiscal registrado</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <code class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0">ubigeo</code>
+            <p class="text-xs text-gray-500 pt-1">Ubicación geográfica: Departamento, Provincia, Distrito</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function showTab(lang) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('bg-blue-600', 'text-white');
+        b.classList.add('bg-gray-100', 'text-gray-600');
+      });
+      document.getElementById('panel-' + lang).classList.remove('hidden');
+      const activeBtn = document.getElementById('tab-' + lang);
+      activeBtn.classList.remove('bg-gray-100', 'text-gray-600');
+      activeBtn.classList.add('bg-blue-600', 'text-white');
+    }
+  </script>
 
   <!-- PRECIOS -->
   <section id="precios" class="py-24 px-6">
