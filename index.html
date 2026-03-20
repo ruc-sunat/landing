@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consulta Perú</title>
+  <meta name="description" content="API REST para consultar RUC y datos de contribuyentes peruanos directamente desde el padrón SUNAT. Integración simple, respuesta inmediata." />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .gradient-text {
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .code-block {
+      background: #0f172a;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .code-block pre {
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body class="font-sans bg-white text-gray-900 antialiased">
+
+  <!-- NAV -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
+          <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+          </svg>
+        </div>
+        <span class="font-semibold text-gray-900 text-sm">Consulta Perú API</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8 text-sm text-gray-500">
+        <a href="#caracteristicas" class="hover:text-gray-900 transition-colors">Características</a>
+        <a href="#como-funciona" class="hover:text-gray-900 transition-colors">Cómo funciona</a>
+        <a href="#precios" class="hover:text-gray-900 transition-colors">Precios</a>
+      </div>
+      <a href="https://ruc-sunat.vercel.app" target="_blank"
+        class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+        Empezar gratis
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="pt-32 pb-24 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-xs font-medium px-3 py-1.5 rounded-full mb-8 border border-blue-100">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+        Padrón SUNAT actualizado
+      </div>
+      <h1 class="text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-6 tracking-tight">
+        Consulta el RUC de cualquier<br />
+        <span class="gradient-text">contribuyente peruano</span>
+      </h1>
+      <p class="text-xl text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed">
+        API REST simple y rápida para integrar consultas al padrón tributario de SUNAT en tus aplicaciones. Sin complicaciones, sin burocracia.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="https://ruc-sunat.vercel.app" target="_blank"
+          class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm shadow-sm">
+          Comenzar gratis →
+        </a>
+        <a href="#como-funciona"
+          class="w-full sm:w-auto bg-white hover:bg-gray-50 text-gray-700 font-medium px-6 py-3 rounded-xl transition-colors text-sm border border-gray-200">
+          Ver cómo funciona
+        </a>
+      </div>
+      <p class="text-xs text-gray-400 mt-5">Plan gratuito incluye 100 consultas/mes · Sin tarjeta de crédito</p>
+    </div>
+
+    <!-- Code preview  x-->
+    <div class="max-w-3xl mx-auto mt-16">
+      <div class="code-block shadow-2xl shadow-gray-200">
+        <div class="flex items-center gap-2 px-5 py-3 border-b border-white/10">
+          <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+          <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+          <span class="ml-3 text-xs text-gray-400 font-mono">consulta_ruc.sh</span>
+        </div>
+        <pre class="p-6 text-sm leading-relaxed"><code><span class="text-gray-400"># Consulta un RUC con tu API key</span>
+<span class="text-blue-400">curl</span> <span class="text-green-400">-X GET</span> <span class="text-yellow-300">"https://ruc-sunat.vercel.app/api/ruc/20601138572"</span> \
+  <span class="text-blue-300">-H</span> <span class="text-yellow-300">"Authorization: Bearer <span class="text-orange-300">tu_api_key</span>"</span>
+
+<span class="text-gray-400"># Respuesta</span>
+<span class="text-gray-300">{</span>
+  <span class="text-blue-300">"ruc"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"20601138572"</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"razonSocial"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"EMPRESA EJEMPLO S.A.C."</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"estado"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"ACTIVO"</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"condicion"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"HABIDO"</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"ubigeo"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"LIMA, LIMA, LIMA"</span>
+<span class="text-gray-300">}</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="py-14 border-y border-gray-100 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+          <p class="text-3xl font-bold text-gray-900">+8M</p>
+          <p class="text-sm text-gray-500 mt-1">Registros disponibles</p>
+        </div>
+        <div>
+          <p class="text-3xl font-bold text-gray-900">&lt;200ms</p>
+          <p class="text-sm text-gray-500 mt-1">Tiempo de respuesta</p>
+        </div>
+        <div>
+          <p class="text-3xl font-bold text-gray-900">99.9%</p>
+          <p class="text-sm text-gray-500 mt-1">Uptime garantizado</p>
+        </div>
+        <div>
+          <p class="text-3xl font-bold text-gray-900">REST</p>
+          <p class="text-sm text-gray-500 mt-1">API estándar JSON</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARACTERÍSTICAS -->
+  <section id="caracteristicas" class="py-24 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16">
+        <p class="text-sm font-medium text-blue-600 mb-3">Características</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Todo lo que necesitas para validar contribuyentes</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <!-- Feature 1 -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2">Consulta por RUC</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Obtén razón social, estado, condición, domicilio fiscal y más datos del padrón SUNAT al instante.</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2">Consulta por DNI <span class="text-xs font-normal text-blue-500 ml-1">Próximamente</span></h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Valida identidades consultando el Registro Nacional de Identificación. En la próxima actualización.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2">Autenticación segura</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">API Keys únicas por cuenta con control de cuotas y acceso restringido a tus sistemas.</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2">Respuesta en milisegundos</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Infraestructura optimizada para respuestas bajo 200ms. Sin timeouts inesperados en producción.</p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2">Dashboard de uso</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Monitorea tus consultas en tiempo real, historial detallado y métricas de uso desde tu panel.</p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2">Integración sencilla</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Una sola línea de código en cualquier lenguaje. Compatible con Python, Node.js, PHP, Java y más.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section id="como-funciona" class="py-24 px-6 bg-gray-50">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16">
+        <p class="text-sm font-medium text-blue-600 mb-3">Cómo funciona</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Listo en menos de 5 minutos</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="w-12 h-12 rounded-2xl bg-blue-600 text-white font-bold text-lg flex items-center justify-center mx-auto mb-4">1</div>
+          <h3 class="font-semibold text-gray-900 mb-2">Crea tu cuenta</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Regístrate gratis. Sin tarjeta de crédito. Tu cuenta se activa al instante.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 rounded-2xl bg-blue-600 text-white font-bold text-lg flex items-center justify-center mx-auto mb-4">2</div>
+          <h3 class="font-semibold text-gray-900 mb-2">Obtén tu API Key</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Desde tu dashboard, genera tu API Key en un clic. Es única y segura para tu cuenta.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 rounded-2xl bg-blue-600 text-white font-bold text-lg flex items-center justify-center mx-auto mb-4">3</div>
+          <h3 class="font-semibold text-gray-900 mb-2">Empieza a consultar</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">Haz tu primera consulta con un simple GET request. Respuesta JSON en menos de 200ms.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRECIOS -->
+  <section id="precios" class="py-24 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16">
+        <p class="text-sm font-medium text-blue-600 mb-3">Precios</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Simple y transparente</h2>
+        <p class="text-gray-500 mt-3 text-sm">Sin costos ocultos. Cancela cuando quieras.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <!-- Free -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-7 flex flex-col">
+          <div class="mb-6">
+            <p class="font-semibold text-gray-900 mb-1">Free</p>
+            <div class="flex items-end gap-1 mb-3">
+              <span class="text-4xl font-bold text-gray-900">S/. 0</span>
+            </div>
+            <p class="text-sm text-gray-500">Para empezar y evaluar la API</p>
+          </div>
+          <ul class="space-y-3 text-sm text-gray-600 mb-8 flex-1">
+            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> 100 consultas por mes</li>
+            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Consulta por RUC</li>
+            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Acceso a la API REST</li>
+            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Soporte por email</li>
+          </ul>
+          <a href="https://ruc-sunat.vercel.app" target="_blank"
+            class="block text-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 px-4 rounded-xl text-sm transition-colors">
+            Empezar gratis
+          </a>
+        </div>
+
+        <!-- Básico -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-7 flex flex-col">
+          <div class="mb-6">
+            <p class="font-semibold text-gray-900 mb-1">Básico</p>
+            <div class="flex items-end gap-1 mb-3">
+              <span class="text-4xl font-bold text-gray-900">S/. 35</span>
+              <span class="text-gray-400 text-sm mb-1">/mes</span>
+            </div>
+            <p class="text-sm text-gray-500">Para proyectos en crecimiento</p>
+          </div>
+          <ul class="space-y-3 text-sm text-gray-600 mb-8 flex-1">
+            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> 5,000 consultas por mes</li>
+            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Consulta por RUC</li>
+            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Acceso a la API REST</li>
+            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Historial de consultas</li>
+            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Soporte prioritario</li>
+          </ul>
+          <a href="https://ruc-sunat.vercel.app" target="_blank"
+            class="block text-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 px-4 rounded-xl text-sm transition-colors">
+            Suscribirse
+          </a>
+        </div>
+
+        <!-- Pro -->
+        <div class="bg-blue-600 rounded-2xl p-7 flex flex-col relative overflow-hidden">
+          <div class="absolute top-4 right-4 bg-white/20 text-white text-xs font-medium px-2.5 py-1 rounded-full">Popular</div>
+          <div class="mb-6">
+            <p class="font-semibold text-white mb-1">Pro</p>
+            <div class="flex items-end gap-1 mb-3">
+              <span class="text-4xl font-bold text-white">S/. 109</span>
+              <span class="text-blue-200 text-sm mb-1">/mes</span>
+            </div>
+            <p class="text-sm text-blue-200">Para aplicaciones en producción</p>
+          </div>
+          <ul class="space-y-3 text-sm text-blue-100 mb-8 flex-1">
+            <li class="flex items-center gap-2"><span class="text-white">✓</span> 50,000 consultas por mes</li>
+            <li class="flex items-center gap-2"><span class="text-white">✓</span> Consulta por RUC</li>
+            <li class="flex items-center gap-2"><span class="text-white">✓</span> Acceso a la API REST</li>
+            <li class="flex items-center gap-2"><span class="text-white">✓</span> Historial de consultas</li>
+            <li class="flex items-center gap-2"><span class="text-white">✓</span> Soporte prioritario 24/7</li>
+            <li class="flex items-center gap-2"><span class="text-white">✓</span> SLA garantizado</li>
+          </ul>
+          <a href="https://ruc-sunat.vercel.app" target="_blank"
+            class="block text-center bg-white hover:bg-gray-50 text-blue-600 font-semibold py-2.5 px-4 rounded-xl text-sm transition-colors">
+            Suscribirse al Pro
+          </a>
+        </div>
+
+      </div>
+      <p class="text-center text-xs text-gray-400 mt-6">Planes anuales disponibles con 2 meses gratis · Cancela en cualquier momento</p>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="py-24 px-6 bg-gray-950">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-5 tracking-tight">
+        Empieza a consultar el padrón SUNAT hoy
+      </h2>
+      <p class="text-gray-400 mb-8 leading-relaxed">
+        Crea tu cuenta gratis y realiza tus primeras 100 consultas sin costo. Sin tarjeta de crédito requerida.
+      </p>
+      <a href="https://ruc-sunat.vercel.app" target="_blank"
+        class="inline-block bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-3.5 rounded-xl transition-colors text-sm shadow-lg shadow-blue-500/20">
+        Crear cuenta gratis →
+      </a>
+      <p class="text-gray-600 text-xs mt-5">Plan gratuito · Sin límite de tiempo · Sin tarjeta de crédito</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-gray-800 bg-gray-950 py-10 px-6">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded-md bg-blue-600 flex items-center justify-center">
+          <svg class="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+          </svg>
+        </div>
+        <span class="text-gray-400 text-sm">Consulta Perú API</span>
+      </div>
+      <p class="text-gray-600 text-xs">© 2025 Consulta Perú API · Datos del padrón tributario SUNAT</p>
+      <a href="https://ruc-sunat.vercel.app" target="_blank" class="text-gray-500 hover:text-gray-300 text-xs transition-colors">
+        Ir a la plataforma →
+      </a>
+    </div>
+  </footer>
+
+</body>
+</html>
