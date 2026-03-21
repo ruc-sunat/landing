@@ -438,10 +438,25 @@
   <!-- PRECIOS -->
   <section id="precios" class="py-24 px-6">
     <div class="max-w-5xl mx-auto">
-      <div class="text-center mb-16">
+      <div class="text-center mb-10">
         <p class="text-sm font-medium text-blue-600 mb-3">Precios</p>
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Simple y transparente</h2>
         <p class="text-gray-500 mt-3 text-sm">Sin costos ocultos. Cancela cuando quieras.</p>
+      </div>
+
+      <!-- Toggle mensual / anual -->
+      <div class="flex justify-center mb-10">
+        <div class="inline-flex rounded-xl border border-gray-200 bg-gray-50 p-1 gap-1">
+          <button id="btn-mensual" onclick="setCycle('monthly')"
+            class="px-5 py-2 rounded-lg text-sm font-medium transition-colors bg-white shadow-sm text-gray-900">
+            Mensual
+          </button>
+          <button id="btn-anual" onclick="setCycle('annual')"
+            class="px-5 py-2 rounded-lg text-sm font-medium transition-colors text-gray-500 hover:text-gray-700">
+            Anual
+            <span class="ml-1.5 text-xs font-semibold text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full">Ahorra hasta 26%</span>
+          </button>
+        </div>
       </div>
 
       <div class="grid md:grid-cols-3 gap-6">
@@ -473,11 +488,13 @@
           <div class="mb-6">
             <p class="font-semibold text-gray-900 mb-1">Starter</p>
             <div class="flex items-end gap-1 mb-2">
-              <span class="text-4xl font-bold text-gray-900">S/. 170</span>
-              <span class="text-gray-400 text-sm mb-1">/año</span>
+              <span id="starter-precio" class="text-4xl font-bold text-gray-900">S/. 19</span>
+              <span id="starter-ciclo" class="text-gray-400 text-sm mb-1">/mes</span>
             </div>
-            <p class="text-sm text-green-600 mb-1">Equivale a S/. 14/mes</p>
-            <p class="text-sm text-gray-500">Consultas ilimitadas</p>
+            <div id="starter-ahorro" class="hidden mb-2">
+              <p class="text-sm text-gray-400 mb-1">Equivale a S/. 14/mes</p>
+              <span class="inline-flex items-center gap-1 bg-green-50 border border-green-200 text-green-700 text-xs font-semibold px-2.5 py-1 rounded-full">🏷️ Ahorras S/. 58/año</span>
+            </div>
           </div>
           <ul class="space-y-3 text-sm text-gray-600 mb-8 flex-1">
             <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Consultas ilimitadas</li>
@@ -499,11 +516,13 @@
           <div class="mb-6">
             <p class="font-semibold text-white mb-1">Pro</p>
             <div class="flex items-end gap-1 mb-2">
-              <span class="text-4xl font-bold text-white">S/. 300</span>
-              <span class="text-blue-200 text-sm mb-1">/año</span>
+              <span id="pro-precio" class="text-4xl font-bold text-white">S/. 35</span>
+              <span id="pro-ciclo" class="text-blue-200 text-sm mb-1">/mes</span>
             </div>
-            <p class="text-sm text-green-300 mb-1">Equivale a S/. 25/mes</p>
-            <p class="text-sm text-blue-200">Consultas ilimitadas</p>
+            <div id="pro-ahorro" class="hidden mb-2">
+              <p class="text-sm text-blue-200 mb-1">Equivale a S/. 25/mes</p>
+              <span class="inline-flex items-center gap-1 bg-white/15 border border-white/30 text-white text-xs font-semibold px-2.5 py-1 rounded-full">🏷️ Ahorras S/. 120/año</span>
+            </div>
           </div>
           <ul class="space-y-3 text-sm text-blue-100 mb-8 flex-1">
             <li class="flex items-center gap-2"><span class="text-white">✓</span> Consultas ilimitadas</li>
@@ -522,7 +541,27 @@
         </div>
 
       </div>
-      <p class="text-center text-xs text-gray-400 mt-6">Pago anual: S/. 170 (Starter) · S/. 300 (Pro) · Cancela en cualquier momento</p>
+      <p class="text-center text-xs text-gray-400 mt-6">Cancela en cualquier momento</p>
+
+      <script>
+        function setCycle(cycle) {
+          var isAnnual = cycle === 'annual';
+
+          // Toggle buttons
+          document.getElementById('btn-mensual').className = 'px-5 py-2 rounded-lg text-sm font-medium transition-colors ' + (!isAnnual ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700');
+          document.getElementById('btn-anual').className = 'px-5 py-2 rounded-lg text-sm font-medium transition-colors ' + (isAnnual ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700');
+
+          // Starter
+          document.getElementById('starter-precio').textContent = isAnnual ? 'S/. 170' : 'S/. 19';
+          document.getElementById('starter-ciclo').textContent = isAnnual ? '/año' : '/mes';
+          document.getElementById('starter-ahorro').className = 'mb-2 ' + (isAnnual ? '' : 'hidden');
+
+          // Pro
+          document.getElementById('pro-precio').textContent = isAnnual ? 'S/. 300' : 'S/. 35';
+          document.getElementById('pro-ciclo').textContent = isAnnual ? '/año' : '/mes';
+          document.getElementById('pro-ahorro').className = 'mb-2 ' + (isAnnual ? '' : 'hidden');
+        }
+      </script>
     </div>
   </section>
 
