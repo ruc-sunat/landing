@@ -1,108 +1,166 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consulta Perú</title>
-  <meta name="description" content="API REST para consultar RUC y datos de contribuyentes peruanos directamente desde el padrón SUNAT. Integración simple, respuesta inmediata." />
-  <link rel="icon" type="image/svg+xml" href="icon.svg" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
-            mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consulta Perú</title>
+    <meta
+      name="description"
+      content="API REST para consultar RUC y datos de contribuyentes peruanos directamente desde el padrón SUNAT. Integración simple, respuesta inmediata."
+    />
+    <link rel="icon" type="image/svg+xml" href="icon.svg" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "ui-sans-serif", "system-ui"],
+              mono: ["JetBrains Mono", "ui-monospace", "monospace"],
+            },
           },
         },
-      },
-    }
-  </script>
-  <style>
-    html { scroll-behavior: smooth; }
-    .gradient-text {
-      background: linear-gradient(135deg, #1d4ed8, #2563eb);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .code-block {
-      background: #0f172a;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    .code-block pre {
-      overflow-x: auto;
-    }
-  </style>
-</head>
-<body class="font-sans bg-white text-gray-900 antialiased">
-
-  <!-- NAV -->
-  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
-          <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
-          </svg>
+      };
+    </script>
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #1d4ed8, #2563eb);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .code-block {
+        background: #0f172a;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .code-block pre {
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body class="font-sans bg-white text-gray-900 antialiased">
+    <!-- NAV -->
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100"
+    >
+      <div
+        class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-2">
+          <div
+            class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center"
+          >
+            <svg
+              class="w-4 h-4 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"
+              />
+            </svg>
+          </div>
+          <span class="font-semibold text-gray-900 text-sm"
+            >Consulta Perú API</span
+          >
         </div>
-        <span class="font-semibold text-gray-900 text-sm">Consulta Perú API</span>
-      </div>
-      <div class="hidden md:flex items-center gap-8 text-sm text-gray-500">
-        <a href="#caracteristicas" class="hover:text-gray-900 transition-colors">Características</a>
-        <a href="#como-funciona" class="hover:text-gray-900 transition-colors">Cómo funciona</a>
-        <a href="#guia" class="hover:text-gray-900 transition-colors">Guía</a>
-        <a href="#precios" class="hover:text-gray-900 transition-colors">Precios</a>
-      </div>
-      <a href="https://app.consultaperuapi.com" target="_blank"
-        class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
-        Empezar gratis
-      </a>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="pt-32 pb-24 px-6">
-    <div class="max-w-4xl mx-auto text-center">
-      <div class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-xs font-medium px-3 py-1.5 rounded-full mb-8 border border-blue-100">
-        <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-        Padrón SUNAT actualizado
-      </div>
-      <h1 class="text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-6 tracking-tight">
-        Consulta el RUC de cualquier<br />
-        <span class="gradient-text">contribuyente peruano</span>
-      </h1>
-      <p class="text-xl text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed">
-        API REST simple y rápida para integrar consultas al padrón tributario de SUNAT en tus aplicaciones. Sin complicaciones, sin burocracia.
-      </p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-        <a href="https://app.consultaperuapi.com" target="_blank"
-          class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm shadow-sm">
-          Comenzar →
-        </a>
-        <a href="#como-funciona"
-          class="w-full sm:w-auto bg-white hover:bg-gray-50 text-gray-700 font-medium px-6 py-3 rounded-xl transition-colors text-sm border border-gray-200">
-          Ver cómo funciona
-        </a>
-      </div>
-      <p class="text-xs text-gray-400 mt-5">Plan gratuito incluye 100 consultas/mes · Sin tarjeta de crédito</p>
-    </div>
-
-    <!-- Code preview  x-->
-    <div class="max-w-3xl mx-auto mt-16">
-      <div class="code-block shadow-2xl shadow-gray-200">
-        <div class="flex items-center gap-2 px-5 py-3 border-b border-white/10">
-          <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
-          <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
-          <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
-          <span class="ml-3 text-xs text-gray-400 font-mono">consulta_ruc.sh</span>
+        <div class="hidden md:flex items-center gap-8 text-sm text-gray-500">
+          <a
+            href="#caracteristicas"
+            class="hover:text-gray-900 transition-colors"
+            >Características</a
+          >
+          <a href="#como-funciona" class="hover:text-gray-900 transition-colors"
+            >Cómo funciona</a
+          >
+          <a href="#guia" class="hover:text-gray-900 transition-colors">Guía</a>
+          <a href="#precios" class="hover:text-gray-900 transition-colors"
+            >Precios</a
+          >
         </div>
-        <pre class="p-6 text-sm leading-relaxed"><code><span class="text-gray-400"># Consulta un RUC con tu API key</span>
+        <a
+          href="https://app.consultaperuapi.com"
+          target="_blank"
+          class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+        >
+          Empezar gratis
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="pt-32 pb-24 px-6">
+      <div class="max-w-4xl mx-auto text-center">
+        <div
+          class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-xs font-medium px-3 py-1.5 rounded-full mb-8 border border-blue-100"
+        >
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+          Padrón SUNAT actualizado
+        </div>
+        <h1
+          class="text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-6 tracking-tight"
+        >
+          Consulta el RUC o DNI de cualquier<br />
+          <span class="gradient-text">contribuyente peruano</span>
+        </h1>
+        <p
+          class="text-xl text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed"
+        >
+          API REST simple y rápida para integrar consultas al padrón tributario
+          de SUNAT en tus aplicaciones. Sin complicaciones, sin burocracia.
+        </p>
+        <div
+          class="flex flex-col sm:flex-row items-center justify-center gap-3"
+        >
+          <a
+            href="https://app.consultaperuapi.com"
+            target="_blank"
+            class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm shadow-sm"
+          >
+            Comenzar →
+          </a>
+          <a
+            href="#como-funciona"
+            class="w-full sm:w-auto bg-white hover:bg-gray-50 text-gray-700 font-medium px-6 py-3 rounded-xl transition-colors text-sm border border-gray-200"
+          >
+            Ver cómo funciona
+          </a>
+        </div>
+        <p class="text-xs text-gray-400 mt-5">
+          Plan gratuito incluye 500 consultas/mes · Sin tarjeta de crédito
+        </p>
+      </div>
+
+      <!-- Code preview  x-->
+      <div class="max-w-3xl mx-auto mt-16">
+        <div class="code-block shadow-2xl shadow-gray-200">
+          <div
+            class="flex items-center gap-2 px-5 py-3 border-b border-white/10"
+          >
+            <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+            <span class="ml-3 text-xs text-gray-400 font-mono"
+              >consulta_ruc.sh</span
+            >
+          </div>
+          <pre
+            class="p-6 text-sm leading-relaxed"
+          ><code><span class="text-gray-400"># Consulta un RUC con tu API key</span>
 <span class="text-blue-400">curl</span> <span class="text-green-400">-X POST</span> <span class="text-yellow-300">"https://api.consultaperuapi.com/api/v1/consultas"</span> \
   <span class="text-blue-300">-H</span> <span class="text-yellow-300">"Content-Type: application/json"</span> \
   <span class="text-blue-300">-d</span> <span class="text-yellow-300">'{"token": "<span class="text-orange-300">tu_api_key</span>", "ruc": "20601138572"}'</span>
@@ -115,179 +173,413 @@
   <span class="text-blue-300">"condicion"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"HABIDO"</span><span class="text-gray-300">,</span>
   <span class="text-blue-300">"ubigeo"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"150101"</span>
 <span class="text-gray-300">}</span></code></pre>
-      </div>
-    </div>
-  </section>
-
-  <!-- STATS -->
-  <section class="py-14 border-y border-gray-100 bg-gray-50">
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div>
-          <p class="text-3xl font-bold text-gray-900">+8M</p>
-          <p class="text-sm text-gray-500 mt-1">Registros disponibles</p>
-        </div>
-        <div>
-          <p class="text-3xl font-bold text-gray-900">&lt;200ms</p>
-          <p class="text-sm text-gray-500 mt-1">Tiempo de respuesta</p>
-        </div>
-        <div>
-          <p class="text-3xl font-bold text-gray-900">99.9%</p>
-          <p class="text-sm text-gray-500 mt-1">Uptime garantizado</p>
-        </div>
-        <div>
-          <p class="text-3xl font-bold text-gray-900">REST</p>
-          <p class="text-sm text-gray-500 mt-1">API estándar JSON</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CARACTERÍSTICAS -->
-  <section id="caracteristicas" class="py-24 px-6">
-    <div class="max-w-5xl mx-auto">
-      <div class="text-center mb-16">
-        <p class="text-sm font-medium text-blue-600 mb-3">Características</p>
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Todo lo que necesitas para validar contribuyentes</h2>
-      </div>
-      <div class="grid md:grid-cols-3 gap-6">
-
-        <!-- Feature 1 -->
-        <div class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all">
-          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
-            <svg class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+    <!-- STATS -->
+    <section class="py-14 border-y border-gray-100 bg-gray-50">
+      <div class="max-w-4xl mx-auto px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div>
+            <p class="text-3xl font-bold text-gray-900">+10M</p>
+            <p class="text-sm text-gray-500 mt-1">Registros disponibles</p>
           </div>
-          <h3 class="font-semibold text-gray-900 mb-2">Consulta por RUC</h3>
-          <p class="text-sm text-gray-500 leading-relaxed">Obtén razón social, estado, condición, domicilio fiscal y más datos del padrón SUNAT al instante.</p>
-        </div>
-
-        <!-- Feature 2 -->
-        <div class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all">
-          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
-            <svg class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
-            </svg>
+          <div>
+            <p class="text-3xl font-bold text-gray-900">&lt;200ms</p>
+            <p class="text-sm text-gray-500 mt-1">Tiempo de respuesta</p>
           </div>
-          <h3 class="font-semibold text-gray-900 mb-2">Consulta por DNI <span class="text-xs font-normal text-blue-500 ml-1">Próximamente</span></h3>
-          <p class="text-sm text-gray-500 leading-relaxed">Valida identidades consultando el Registro Nacional de Identificación. En la próxima actualización.</p>
-        </div>
-
-        <!-- Feature 3 -->
-        <div class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all">
-          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
-            <svg class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-            </svg>
+          <div>
+            <p class="text-3xl font-bold text-gray-900">99.9%</p>
+            <p class="text-sm text-gray-500 mt-1">Uptime garantizado</p>
           </div>
-          <h3 class="font-semibold text-gray-900 mb-2">Autenticación segura</h3>
-          <p class="text-sm text-gray-500 leading-relaxed">API Keys únicas por cuenta con control de cuotas y acceso restringido a tus sistemas.</p>
-        </div>
-
-        <!-- Feature 4 -->
-        <div class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all">
-          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
-            <svg class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
+          <div>
+            <p class="text-3xl font-bold text-gray-900">REST</p>
+            <p class="text-sm text-gray-500 mt-1">API estándar JSON</p>
           </div>
-          <h3 class="font-semibold text-gray-900 mb-2">Respuesta en milisegundos</h3>
-          <p class="text-sm text-gray-500 leading-relaxed">Infraestructura optimizada para respuestas bajo 200ms. Sin timeouts inesperados en producción.</p>
-        </div>
-
-        <!-- Feature 5 -->
-        <div class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all">
-          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
-            <svg class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-          </div>
-          <h3 class="font-semibold text-gray-900 mb-2">Dashboard de uso</h3>
-          <p class="text-sm text-gray-500 leading-relaxed">Monitorea tus consultas en tiempo real, historial detallado y métricas de uso desde tu panel.</p>
-        </div>
-
-        <!-- Feature 6 -->
-        <div class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all">
-          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
-            <svg class="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-            </svg>
-          </div>
-          <h3 class="font-semibold text-gray-900 mb-2">Integración sencilla</h3>
-          <p class="text-sm text-gray-500 leading-relaxed">Una sola línea de código en cualquier lenguaje. Compatible con Python, Node.js, PHP, Java y más.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- CÓMO FUNCIONA -->
-  <section id="como-funciona" class="py-24 px-6 bg-gray-50">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center mb-16">
-        <p class="text-sm font-medium text-blue-600 mb-3">Cómo funciona</p>
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Listo en menos de 5 minutos</h2>
-      </div>
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="text-center">
-          <div class="w-12 h-12 rounded-2xl bg-blue-600 text-white font-bold text-lg flex items-center justify-center mx-auto mb-4">1</div>
-          <h3 class="font-semibold text-gray-900 mb-2">Crea tu cuenta</h3>
-          <p class="text-sm text-gray-500 leading-relaxed">Regístrate gratis. Sin tarjeta de crédito. Tu cuenta se activa al instante.</p>
-        </div>
-        <div class="text-center">
-          <div class="w-12 h-12 rounded-2xl bg-blue-600 text-white font-bold text-lg flex items-center justify-center mx-auto mb-4">2</div>
-          <h3 class="font-semibold text-gray-900 mb-2">Obtén tu API Key</h3>
-          <p class="text-sm text-gray-500 leading-relaxed">Desde tu dashboard, genera tu API Key en un clic. Es única y segura para tu cuenta.</p>
-        </div>
-        <div class="text-center">
-          <div class="w-12 h-12 rounded-2xl bg-blue-600 text-white font-bold text-lg flex items-center justify-center mx-auto mb-4">3</div>
-          <h3 class="font-semibold text-gray-900 mb-2">Empieza a consultar</h3>
-          <p class="text-sm text-gray-500 leading-relaxed">Haz tu primera consulta con un simple POST request. Respuesta JSON en menos de 200ms.</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- GUÍA -->
-  <section id="guia" class="py-24 px-6">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center mb-16">
-        <p class="text-sm font-medium text-blue-600 mb-3">Guía de integración</p>
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Ejemplos de código</h2>
-        <p class="text-gray-500 mt-3 text-sm">Integra la API en tu lenguaje favorito en minutos.</p>
-      </div>
-
-      <!-- Tabs -->
-      <div class="flex gap-2 mb-4 flex-wrap">
-        <button onclick="showTab('curl')" id="tab-curl"
-          class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-blue-600 text-white">
-          cURL
-        </button>
-        <button onclick="showTab('python')" id="tab-python"
-          class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200">
-          Python
-        </button>
-        <button onclick="showTab('javascript')" id="tab-javascript"
-          class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200">
-          JavaScript
-        </button>
-        <button onclick="showTab('php')" id="tab-php"
-          class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200">
-          PHP
-        </button>
-      </div>
-
-      <!-- cURL -->
-      <div id="panel-curl" class="tab-panel">
-        <div class="code-block shadow-xl shadow-gray-100">
-          <div class="flex items-center gap-2 px-5 py-3 border-b border-white/10">
-            <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
-            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
-            <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
-            <span class="ml-3 text-xs text-gray-400 font-mono">consulta.sh</span>
+    <!-- CARACTERÍSTICAS -->
+    <section id="caracteristicas" class="py-24 px-6">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-16">
+          <p class="text-sm font-medium text-blue-600 mb-3">Características</p>
+          <h2
+            class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight"
+          >
+            Todo lo que necesitas para validar contribuyentes
+          </h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          <!-- Feature 1 -->
+          <div
+            class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all"
+          >
+            <div
+              class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4"
+            >
+              <svg
+                class="w-5 h-5 text-blue-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">Consulta por RUC</h3>
+            <p class="text-sm text-gray-500 leading-relaxed">
+              Obtén razón social, estado, condición, domicilio fiscal y más
+              datos del padrón SUNAT al instante.
+            </p>
           </div>
-          <pre class="p-6 text-sm leading-relaxed overflow-x-auto"><code><span class="text-gray-400"># Consulta un RUC</span>
+
+          <!-- Feature 2 -->
+          <div
+            class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all"
+          >
+            <div
+              class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4"
+            >
+              <svg
+                class="w-5 h-5 text-blue-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"
+                />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">Consulta por DNI</h3>
+            <p class="text-sm text-gray-500 leading-relaxed">
+              Valida identidades buscando en el padrón SUNAT. Obtén nombres,
+              apellidos y dirección al instante.
+            </p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div
+            class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all"
+          >
+            <div
+              class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4"
+            >
+              <svg
+                class="w-5 h-5 text-blue-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">
+              Autenticación segura
+            </h3>
+            <p class="text-sm text-gray-500 leading-relaxed">
+              API Keys únicas por cuenta con control de cuotas y acceso
+              restringido a tus sistemas.
+            </p>
+          </div>
+
+          <!-- Feature 4 -->
+          <div
+            class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all"
+          >
+            <div
+              class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4"
+            >
+              <svg
+                class="w-5 h-5 text-blue-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">
+              Respuesta en milisegundos
+            </h3>
+            <p class="text-sm text-gray-500 leading-relaxed">
+              Infraestructura optimizada para respuestas bajo 200ms. Sin
+              timeouts inesperados en producción.
+            </p>
+          </div>
+
+          <!-- Feature 5 -->
+          <div
+            class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all"
+          >
+            <div
+              class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4"
+            >
+              <svg
+                class="w-5 h-5 text-blue-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">Dashboard de uso</h3>
+            <p class="text-sm text-gray-500 leading-relaxed">
+              Monitorea tus consultas en tiempo real, historial detallado y
+              métricas de uso desde tu panel.
+            </p>
+          </div>
+
+          <!-- Feature 6 -->
+          <div
+            class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all"
+          >
+            <div
+              class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-4"
+            >
+              <svg
+                class="w-5 h-5 text-blue-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">
+              Integración sencilla
+            </h3>
+            <p class="text-sm text-gray-500 leading-relaxed">
+              Una sola línea de código en cualquier lenguaje. Compatible con
+              Python, Node.js, PHP, Java y más.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CÓMO FUNCIONA -->
+    <section id="como-funciona" class="py-24 px-6 bg-gray-50">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <p class="text-sm font-medium text-blue-600 mb-3">Cómo funciona</p>
+          <h2
+            class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight"
+          >
+            Listo en menos de 5 minutos
+          </h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div
+              class="w-12 h-12 rounded-2xl bg-blue-600 text-white font-bold text-lg flex items-center justify-center mx-auto mb-4"
+            >
+              1
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">Crea tu cuenta</h3>
+            <p class="text-sm text-gray-500 leading-relaxed">
+              Regístrate gratis. Sin tarjeta de crédito. Tu cuenta se activa al
+              instante.
+            </p>
+          </div>
+          <div class="text-center">
+            <div
+              class="w-12 h-12 rounded-2xl bg-blue-600 text-white font-bold text-lg flex items-center justify-center mx-auto mb-4"
+            >
+              2
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">Obtén tu API Key</h3>
+            <p class="text-sm text-gray-500 leading-relaxed">
+              Desde tu dashboard, genera tu API Key en un clic. Es única y
+              segura para tu cuenta.
+            </p>
+          </div>
+          <div class="text-center">
+            <div
+              class="w-12 h-12 rounded-2xl bg-blue-600 text-white font-bold text-lg flex items-center justify-center mx-auto mb-4"
+            >
+              3
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">
+              Empieza a consultar
+            </h3>
+            <p class="text-sm text-gray-500 leading-relaxed">
+              Haz tu primera consulta con un simple POST request. Respuesta JSON
+              en menos de 200ms.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GUÍA -->
+    <section id="guia" class="py-24 px-6">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <p class="text-sm font-medium text-blue-600 mb-3">
+            Guía de integración
+          </p>
+          <h2
+            class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight"
+          >
+            Ejemplos de código
+          </h2>
+          <p class="text-gray-500 mt-3 text-sm">
+            Integra la API en tu lenguaje favorito en minutos.
+          </p>
+        </div>
+
+        <!-- Selector de Endpoint -->
+        <div class="flex gap-2 mb-6 justify-center flex-wrap">
+          <button
+            onclick="selectEndpoint('ruc')"
+            id="endpoint-ruc"
+            class="endpoint-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-blue-50 text-blue-700 border border-blue-200"
+          >
+            💼 Buscar RUC
+          </button>
+          <button
+            onclick="selectEndpoint('dni')"
+            id="endpoint-dni"
+            class="endpoint-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
+          >
+            👤 Buscar DNI
+          </button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex gap-2 mb-4 flex-wrap">
+          <button
+            onclick="showTab('curl')"
+            id="tab-curl"
+            class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-blue-600 text-white"
+          >
+            cURL
+          </button>
+          <button
+            onclick="showTab('python')"
+            id="tab-python"
+            class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
+          >
+            Python
+          </button>
+          <button
+            onclick="showTab('javascript')"
+            id="tab-javascript"
+            class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
+          >
+            JavaScript
+          </button>
+          <button
+            onclick="showTab('php')"
+            id="tab-php"
+            class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
+          >
+            PHP
+          </button>
+        </div>
+
+        <!-- Endpoint y método -->
+        <div
+          id="endpoint-info-ruc"
+          class="mb-6 p-4 bg-blue-50 rounded-xl border border-blue-200"
+        >
+          <p
+            class="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-2"
+          >
+            Endpoint
+          </p>
+          <div class="flex items-center gap-3">
+            <span
+              class="bg-blue-100 text-blue-700 text-xs font-bold px-2.5 py-1 rounded"
+              >POST</span
+            >
+            <code class="text-sm font-mono text-gray-800"
+              >/api/v1/consultas</code
+            >
+          </div>
+          <p class="text-xs text-gray-600 mt-2">
+            Body:
+            <code class="bg-gray-100 px-1 rounded"
+              >{"token": "TU_API_KEY", "ruc": "20601138572"}</code
+            >
+          </p>
+        </div>
+
+        <div
+          id="endpoint-info-dni"
+          class="mb-6 p-4 bg-green-50 rounded-xl border border-green-200 hidden"
+        >
+          <p
+            class="text-xs font-semibold text-green-600 uppercase tracking-wide mb-2"
+          >
+            Endpoint
+          </p>
+          <div class="flex items-center gap-3">
+            <span
+              class="bg-green-100 text-green-700 text-xs font-bold px-2.5 py-1 rounded"
+              >POST</span
+            >
+            <code class="text-sm font-mono text-gray-800"
+              >/api/v1/consultas-dni</code
+            >
+          </div>
+          <p class="text-xs text-gray-600 mt-2">
+            Body:
+            <code class="bg-gray-100 px-1 rounded"
+              >{"token": "TU_API_KEY", "dni": "12345678"}</code
+            >
+          </p>
+        </div>
+
+        <!-- cURL RUC -->
+        <div id="panel-curl-ruc" class="tab-panel-ruc">
+          <div class="code-block shadow-xl shadow-gray-100">
+            <div
+              class="flex items-center gap-2 px-5 py-3 border-b border-white/10"
+            >
+              <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+              <span class="ml-3 text-xs text-gray-400 font-mono"
+                >consulta.sh</span
+              >
+            </div>
+            <pre
+              class="p-6 text-sm leading-relaxed overflow-x-auto"
+            ><code><span class="text-gray-400"># Consulta un RUC</span>
 <span class="text-blue-400">curl</span> <span class="text-green-400">-X POST</span> \
   <span class="text-yellow-300">"https://api.consultaperuapi.com/api/v1/consultas"</span> \
   <span class="text-blue-300">-H</span> <span class="text-yellow-300">"Content-Type: application/json"</span> \
@@ -301,19 +593,61 @@
   <span class="text-blue-300">"condicion"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"HABIDO"</span><span class="text-gray-300">,</span>
   <span class="text-blue-300">"ubigeo"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"150101"</span>
 <span class="text-gray-300">}</span></code></pre>
-        </div>
-      </div>
-
-      <!-- Python -->
-      <div id="panel-python" class="tab-panel hidden">
-        <div class="code-block shadow-xl shadow-gray-100">
-          <div class="flex items-center gap-2 px-5 py-3 border-b border-white/10">
-            <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
-            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
-            <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
-            <span class="ml-3 text-xs text-gray-400 font-mono">consulta.py</span>
           </div>
-          <pre class="p-6 text-sm leading-relaxed overflow-x-auto"><code><span class="text-blue-400">import</span> <span class="text-gray-300">requests</span>
+        </div>
+
+        <!-- cURL DNI -->
+        <div id="panel-curl-dni" class="tab-panel-dni hidden">
+          <div class="code-block shadow-xl shadow-gray-100">
+            <div
+              class="flex items-center gap-2 px-5 py-3 border-b border-white/10"
+            >
+              <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+              <span class="ml-3 text-xs text-gray-400 font-mono"
+                >consulta.sh</span
+              >
+            </div>
+            <pre
+              class="p-6 text-sm leading-relaxed overflow-x-auto"
+            ><code><span class="text-gray-400"># Consulta un DNI</span>
+<span class="text-blue-400">curl</span> <span class="text-green-400">-X POST</span> \
+  <span class="text-yellow-300">"https://api.consultaperuapi.com/api/v1/consultas-dni"</span> \
+  <span class="text-blue-300">-H</span> <span class="text-yellow-300">"Content-Type: application/json"</span> \
+  <span class="text-blue-300">-d</span> <span class="text-yellow-300">'{"token": "<span class="text-orange-300">tu_api_key</span>", "dni": "12345678"}'</span>
+
+<span class="text-gray-400"># Respuesta</span>
+<span class="text-gray-300">{</span>
+  <span class="text-blue-300">"success"</span><span class="text-gray-300">:</span> <span class="text-blue-400">true</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"data"</span><span class="text-gray-300">: {</span>
+    <span class="text-blue-300">"dni"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"12345678"</span><span class="text-gray-300">,</span>
+    <span class="text-blue-300">"nombres"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"JUAN PABLO"</span><span class="text-gray-300">,</span>
+    <span class="text-blue-300">"apellidoPaterno"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"GARCÍA"</span><span class="text-gray-300">,</span>
+    <span class="text-blue-300">"nombreCompleto"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"GARCÍA PÉREZ JUAN PABLO"</span><span class="text-gray-300">,</span>
+    <span class="text-blue-300">"direccion"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"JR. EJEMPLO 456"</span><span class="text-gray-300">,</span>
+    <span class="text-blue-300">"fuente"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"padron_local"</span>
+  <span class="text-gray-300">}</span>
+<span class="text-gray-300">}</span></code></pre>
+          </div>
+        </div>
+
+        <!-- Python RUC -->
+        <div id="panel-python-ruc" class="tab-panel-ruc hidden">
+          <div class="code-block shadow-xl shadow-gray-100">
+            <div
+              class="flex items-center gap-2 px-5 py-3 border-b border-white/10"
+            >
+              <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+              <span class="ml-3 text-xs text-gray-400 font-mono"
+                >consulta.py</span
+              >
+            </div>
+            <pre
+              class="p-6 text-sm leading-relaxed overflow-x-auto"
+            ><code><span class="text-blue-400">import</span> <span class="text-gray-300">requests</span>
 
 <span class="text-gray-400"># Configura tu API Key</span>
 <span class="text-green-400">API_KEY</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"<span class="text-orange-300">tu_api_key</span>"</span>
@@ -327,19 +661,58 @@
 <span class="text-green-400">data</span> <span class="text-gray-300">=</span> <span class="text-gray-300">response.</span><span class="text-blue-400">json</span><span class="text-gray-300">()</span>
 <span class="text-blue-400">print</span><span class="text-gray-300">(data[</span><span class="text-yellow-300">"razon_social"</span><span class="text-gray-300">])</span>  <span class="text-gray-400"># "EMPRESA EJEMPLO S.A.C."</span>
 <span class="text-blue-400">print</span><span class="text-gray-300">(data[</span><span class="text-yellow-300">"estado"</span><span class="text-gray-300">])</span>       <span class="text-gray-400"># "ACTIVO"</span></code></pre>
-        </div>
-      </div>
-
-      <!-- JavaScript -->
-      <div id="panel-javascript" class="tab-panel hidden">
-        <div class="code-block shadow-xl shadow-gray-100">
-          <div class="flex items-center gap-2 px-5 py-3 border-b border-white/10">
-            <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
-            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
-            <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
-            <span class="ml-3 text-xs text-gray-400 font-mono">consulta.js</span>
           </div>
-          <pre class="p-6 text-sm leading-relaxed overflow-x-auto"><code><span class="text-gray-400">// Configura tu API Key</span>
+        </div>
+
+        <!-- Python DNI -->
+        <div id="panel-python-dni" class="tab-panel-dni hidden">
+          <div class="code-block shadow-xl shadow-gray-100">
+            <div
+              class="flex items-center gap-2 px-5 py-3 border-b border-white/10"
+            >
+              <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+              <span class="ml-3 text-xs text-gray-400 font-mono"
+                >consulta_dni.py</span
+              >
+            </div>
+            <pre
+              class="p-6 text-sm leading-relaxed overflow-x-auto"
+            ><code><span class="text-blue-400">import</span> <span class="text-gray-300">requests</span>
+
+<span class="text-gray-400"># Configura tu API Key</span>
+<span class="text-green-400">API_KEY</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"<span class="text-orange-300">tu_api_key</span>"</span>
+<span class="text-green-400">DNI</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"12345678"</span>
+
+<span class="text-green-400">response</span> <span class="text-gray-300">=</span> <span class="text-gray-300">requests.</span><span class="text-blue-400">post</span><span class="text-gray-300">(</span>
+    <span class="text-yellow-300">"https://api.consultaperuapi.com/api/v1/consultas-dni"</span><span class="text-gray-300">,</span>
+    <span class="text-green-400">json</span><span class="text-gray-300">={</span><span class="text-yellow-300">"token"</span><span class="text-gray-300">: API_KEY,</span> <span class="text-yellow-300">"dni"</span><span class="text-gray-300">: DNI}</span>
+<span class="text-gray-300">)</span>
+
+<span class="text-green-400">data</span> <span class="text-gray-300">=</span> <span class="text-gray-300">response.</span><span class="text-blue-400">json</span><span class="text-gray-300">()</span>
+<span class="text-blue-400">if</span> <span class="text-gray-300">data[</span><span class="text-yellow-300">"success"</span><span class="text-gray-300">]:</span>
+    <span class="text-blue-400">print</span><span class="text-gray-300">(data[</span><span class="text-yellow-300">"data"</span><span class="text-gray-300">][</span><span class="text-yellow-300">"nombreCompleto"</span><span class="text-gray-300">])</span>  <span class="text-gray-400"># Nombre completo</span>
+    <span class="text-blue-400">print</span><span class="text-gray-300">(data[</span><span class="text-yellow-300">"data"</span><span class="text-gray-300">][</span><span class="text-yellow-300">"direccion"</span><span class="text-gray-300">])</span>           <span class="text-gray-400"># Dirección</span></code></pre>
+          </div>
+        </div>
+
+        <!-- JavaScript RUC -->
+        <div id="panel-javascript-ruc" class="tab-panel-ruc hidden">
+          <div class="code-block shadow-xl shadow-gray-100">
+            <div
+              class="flex items-center gap-2 px-5 py-3 border-b border-white/10"
+            >
+              <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+              <span class="ml-3 text-xs text-gray-400 font-mono"
+                >consulta.js</span
+              >
+            </div>
+            <pre
+              class="p-6 text-sm leading-relaxed overflow-x-auto"
+            ><code><span class="text-gray-400">// Configura tu API Key</span>
 <span class="text-blue-400">const</span> <span class="text-green-400">API_KEY</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"<span class="text-orange-300">tu_api_key</span>"</span><span class="text-gray-300">;</span>
 <span class="text-blue-400">const</span> <span class="text-green-400">ruc</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"20601138572"</span><span class="text-gray-300">;</span>
 
@@ -355,19 +728,61 @@
 <span class="text-blue-400">const</span> <span class="text-green-400">data</span> <span class="text-gray-300">=</span> <span class="text-blue-400">await</span> <span class="text-green-400">response</span><span class="text-gray-300">.</span><span class="text-blue-400">json</span><span class="text-gray-300">();</span>
 <span class="text-gray-300">console.</span><span class="text-blue-400">log</span><span class="text-gray-300">(</span><span class="text-green-400">data</span><span class="text-gray-300">.</span><span class="text-green-400">razon_social</span><span class="text-gray-300">);</span>  <span class="text-gray-400">// "EMPRESA EJEMPLO S.A.C."</span>
 <span class="text-gray-300">console.</span><span class="text-blue-400">log</span><span class="text-gray-300">(</span><span class="text-green-400">data</span><span class="text-gray-300">.</span><span class="text-green-400">estado</span><span class="text-gray-300">);</span>        <span class="text-gray-400">// "ACTIVO"</span></code></pre>
-        </div>
-      </div>
-
-      <!-- PHP -->
-      <div id="panel-php" class="tab-panel hidden">
-        <div class="code-block shadow-xl shadow-gray-100">
-          <div class="flex items-center gap-2 px-5 py-3 border-b border-white/10">
-            <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
-            <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
-            <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
-            <span class="ml-3 text-xs text-gray-400 font-mono">consulta.php</span>
           </div>
-          <pre class="p-6 text-sm leading-relaxed overflow-x-auto"><code><span class="text-blue-400">&lt;?php</span>
+        </div>
+
+        <!-- JavaScript DNI -->
+        <div id="panel-javascript-dni" class="tab-panel-dni hidden">
+          <div class="code-block shadow-xl shadow-gray-100">
+            <div
+              class="flex items-center gap-2 px-5 py-3 border-b border-white/10"
+            >
+              <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+              <span class="ml-3 text-xs text-gray-400 font-mono"
+                >consulta_dni.js</span
+              >
+            </div>
+            <pre
+              class="p-6 text-sm leading-relaxed overflow-x-auto"
+            ><code><span class="text-gray-400">// Configura tu API Key</span>
+<span class="text-blue-400">const</span> <span class="text-green-400">API_KEY</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"<span class="text-orange-300">tu_api_key</span>"</span><span class="text-gray-300">;</span>
+<span class="text-blue-400">const</span> <span class="text-green-400">dni</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"12345678"</span><span class="text-gray-300">;</span>
+
+<span class="text-blue-400">const</span> <span class="text-green-400">response</span> <span class="text-gray-300">=</span> <span class="text-blue-400">await</span> <span class="text-gray-300">fetch(</span>
+  <span class="text-yellow-300">"https://api.consultaperuapi.com/api/v1/consultas-dni"</span><span class="text-gray-300">,</span>
+  <span class="text-gray-300">{</span>
+    <span class="text-green-400">method</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"POST"</span><span class="text-gray-300">,</span>
+    <span class="text-green-400">headers</span><span class="text-gray-300">: {</span> <span class="text-yellow-300">"Content-Type"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"application/json"</span> <span class="text-gray-300">},</span>
+    <span class="text-green-400">body</span><span class="text-gray-300">:</span> <span class="text-gray-300">JSON.</span><span class="text-blue-400">stringify</span><span class="text-gray-300">({</span> <span class="text-green-400">token</span><span class="text-gray-300">: API_KEY,</span> <span class="text-green-400">dni</span> <span class="text-gray-300">})</span>
+  <span class="text-gray-300">}</span>
+<span class="text-gray-300">);</span>
+
+<span class="text-blue-400">const</span> <span class="text-green-400">data</span> <span class="text-gray-300">=</span> <span class="text-blue-400">await</span> <span class="text-green-400">response</span><span class="text-gray-300">.</span><span class="text-blue-400">json</span><span class="text-gray-300">();</span>
+<span class="text-blue-400">if</span> <span class="text-gray-300">(data.success) {</span>
+  <span class="text-gray-300">console.</span><span class="text-blue-400">log</span><span class="text-gray-300">(data.data.nombreCompleto);</span>  <span class="text-gray-400">// Nombre completo</span>
+  <span class="text-gray-300">console.</span><span class="text-blue-400">log</span><span class="text-gray-300">(data.data.direccion);</span>           <span class="text-gray-400">// Dirección</span>
+<span class="text-gray-300">}</span></code></pre>
+          </div>
+        </div>
+
+        <!-- PHP RUC -->
+        <div id="panel-php-ruc" class="tab-panel-ruc hidden">
+          <div class="code-block shadow-xl shadow-gray-100">
+            <div
+              class="flex items-center gap-2 px-5 py-3 border-b border-white/10"
+            >
+              <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+              <span class="ml-3 text-xs text-gray-400 font-mono"
+                >consulta.php</span
+              >
+            </div>
+            <pre
+              class="p-6 text-sm leading-relaxed overflow-x-auto"
+            ><code><span class="text-blue-400">&lt;?php</span>
 
 <span class="text-gray-400">// Configura tu API Key</span>
 <span class="text-green-400">$apiKey</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"<span class="text-orange-300">tu_api_key</span>"</span><span class="text-gray-300">;</span>
@@ -385,220 +800,556 @@
 
 <span class="text-blue-400">echo</span> <span class="text-green-400">$data</span><span class="text-gray-300">->razonSocial;</span>  <span class="text-gray-400">// "EMPRESA EJEMPLO S.A.C."</span>
 <span class="text-blue-400">echo</span> <span class="text-green-400">$data</span><span class="text-gray-300">->estado;</span>       <span class="text-gray-400">// "ACTIVO"</span></code></pre>
-        </div>
-      </div>
-
-      <!-- Nota de campos de respuesta -->
-      <div class="mt-8 bg-gray-50 rounded-2xl border border-gray-200 p-6">
-        <h3 class="font-semibold text-gray-900 mb-4 text-sm">Campos de la respuesta</h3>
-        <div class="grid sm:grid-cols-2 gap-3">
-          <div class="flex items-start gap-3">
-            <code class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0">ruc</code>
-            <p class="text-xs text-gray-500 pt-1">Número de RUC del contribuyente (11 dígitos)</p>
-          </div>
-          <div class="flex items-start gap-3">
-            <code class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0">razonSocial</code>
-            <p class="text-xs text-gray-500 pt-1">Nombre o razón social registrada en SUNAT</p>
-          </div>
-          <div class="flex items-start gap-3">
-            <code class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0">estado</code>
-            <p class="text-xs text-gray-500 pt-1">Estado del contribuyente: ACTIVO, BAJA, etc.</p>
-          </div>
-          <div class="flex items-start gap-3">
-            <code class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0">condicion</code>
-            <p class="text-xs text-gray-500 pt-1">Condición de domicilio: HABIDO, NO HABIDO, etc.</p>
-          </div>
-          <div class="flex items-start gap-3">
-            <code class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0">direccion</code>
-            <p class="text-xs text-gray-500 pt-1">Domicilio fiscal registrado</p>
-          </div>
-          <div class="flex items-start gap-3">
-            <code class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0">ubigeo</code>
-            <p class="text-xs text-gray-500 pt-1">Ubicación geográfica: Departamento, Provincia, Distrito</p>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <script>
-    function showTab(lang) {
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
-      document.querySelectorAll('.tab-btn').forEach(b => {
-        b.classList.remove('bg-blue-600', 'text-white');
-        b.classList.add('bg-gray-100', 'text-gray-600');
-      });
-      document.getElementById('panel-' + lang).classList.remove('hidden');
-      const activeBtn = document.getElementById('tab-' + lang);
-      activeBtn.classList.remove('bg-gray-100', 'text-gray-600');
-      activeBtn.classList.add('bg-blue-600', 'text-white');
-    }
-  </script>
-
-  <!-- PRECIOS -->
-  <section id="precios" class="py-24 px-6">
-    <div class="max-w-5xl mx-auto">
-      <div class="text-center mb-10">
-        <p class="text-sm font-medium text-blue-600 mb-3">Precios</p>
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Simple y transparente</h2>
-        <p class="text-gray-500 mt-3 text-sm">Sin costos ocultos. Cancela cuando quieras.</p>
-      </div>
-
-      <!-- Toggle mensual / anual -->
-      <div class="flex justify-center mb-10">
-        <div class="inline-flex rounded-xl border border-gray-200 bg-gray-50 p-1 gap-1">
-          <button id="btn-mensual" onclick="setCycle('monthly')"
-            class="px-5 py-2 rounded-lg text-sm font-medium transition-colors bg-white shadow-sm text-gray-900">
-            Mensual
-          </button>
-          <button id="btn-anual" onclick="setCycle('annual')"
-            class="px-5 py-2 rounded-lg text-sm font-medium transition-colors text-gray-500 hover:text-gray-700">
-            Anual
-            <span class="ml-1.5 text-xs font-semibold text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full">Ahorra hasta 26%</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-6">
-
-        <!-- Free -->
-        <div class="bg-white rounded-2xl border border-gray-200 p-7 flex flex-col">
-          <div class="mb-6">
-            <p class="font-semibold text-gray-900 mb-1">Free</p>
-            <div class="flex items-end gap-1 mb-3">
-              <span class="text-4xl font-bold text-gray-900">Gratis</span>
+        <!-- PHP DNI -->
+        <div id="panel-php-dni" class="tab-panel-dni hidden">
+          <div class="code-block shadow-xl shadow-gray-100">
+            <div
+              class="flex items-center gap-2 px-5 py-3 border-b border-white/10"
+            >
+              <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+              <span class="ml-3 text-xs text-gray-400 font-mono"
+                >consulta_dni.php</span
+              >
             </div>
-            <p class="text-sm text-gray-500">500 consultas/mes</p>
+            <pre
+              class="p-6 text-sm leading-relaxed overflow-x-auto"
+            ><code><span class="text-blue-400">&lt;?php</span>
+
+<span class="text-gray-400">// Configura tu API Key</span>
+<span class="text-green-400">$apiKey</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"<span class="text-orange-300">tu_api_key</span>"</span><span class="text-gray-300">;</span>
+<span class="text-green-400">$dni</span>    <span class="text-gray-300">=</span> <span class="text-yellow-300">"12345678"</span><span class="text-gray-300">;</span>
+<span class="text-green-400">$ch</span> <span class="text-gray-300">=</span> <span class="text-blue-400">curl_init</span><span class="text-gray-300">(</span><span class="text-yellow-300">"https://api.consultaperuapi.com/api/v1/consultas-dni"</span><span class="text-gray-300">);</span>
+<span class="text-blue-400">curl_setopt_array</span><span class="text-gray-300">(</span><span class="text-green-400">$ch</span><span class="text-gray-300">, [</span>
+    <span class="text-gray-300">CURLOPT_RETURNTRANSFER =></span> <span class="text-blue-400">true</span><span class="text-gray-300">,</span>
+    <span class="text-gray-300">CURLOPT_POST           =></span> <span class="text-blue-400">true</span><span class="text-gray-300">,</span>
+    <span class="text-gray-300">CURLOPT_HTTPHEADER     => [</span><span class="text-yellow-300">"Content-Type: application/json"</span><span class="text-gray-300">],</span>
+    <span class="text-gray-300">CURLOPT_POSTFIELDS     =></span> <span class="text-blue-400">json_encode</span><span class="text-gray-300">([</span><span class="text-yellow-300">"token"</span> <span class="text-gray-300">=></span> <span class="text-green-400">$apiKey</span><span class="text-gray-300">,</span> <span class="text-yellow-300">"dni"</span> <span class="text-gray-300">=></span> <span class="text-green-400">$dni</span><span class="text-gray-300">])</span>
+<span class="text-gray-300">]);</span>
+
+<span class="text-green-400">$body</span> <span class="text-gray-300">=</span> <span class="text-blue-400">curl_exec</span><span class="text-gray-300">(</span><span class="text-green-400">$ch</span><span class="text-gray-300">);</span>
+<span class="text-green-400">$data</span> <span class="text-gray-300">=</span> <span class="text-blue-400">json_decode</span><span class="text-gray-300">(</span><span class="text-green-400">$body</span><span class="text-gray-300">);</span>
+
+<span class="text-blue-400">if</span> <span class="text-gray-300">(</span><span class="text-green-400">$data</span><span class="text-gray-300">->success) {</span>
+    <span class="text-blue-400">echo</span> <span class="text-green-400">$data</span><span class="text-gray-300">->data->nombreCompleto;</span>  <span class="text-gray-400">// Nombre completo</span>
+    <span class="text-blue-400">echo</span> <span class="text-green-400">$data</span><span class="text-gray-300">->data->direccion;</span>           <span class="text-gray-400">// Dirección</span>
+<span class="text-gray-300">}</span></code></pre>
           </div>
-          <ul class="space-y-3 text-sm text-gray-600 mb-8 flex-1">
-            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> 500 consultas mensuales</li>
-            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> 2 req/seg (rate limit)</li>
-            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> GET /ruc/{ruc}</li>
-            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Datos completos del RUC</li>
-            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Documentación y ejemplos</li>
-          </ul>
-          <a href="https://app.consultaperuapi.com" target="_blank"
-            class="block text-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 px-4 rounded-xl text-sm transition-colors">
-            Empezar gratis
-          </a>
         </div>
 
-        <!-- Starter -->
-        <div class="bg-white rounded-2xl border border-gray-200 p-7 flex flex-col">
-          <div class="mb-6">
-            <p class="font-semibold text-gray-900 mb-1">Starter</p>
-            <div class="flex items-end gap-1 mb-2">
-              <span id="starter-precio" class="text-4xl font-bold text-gray-900">S/. 19</span>
-              <span id="starter-ciclo" class="text-gray-400 text-sm mb-1">/mes</span>
+        <!-- Nota de campos de respuesta -->
+        <div
+          id="response-fields-ruc"
+          class="mt-8 bg-gray-50 rounded-2xl border border-gray-200 p-6"
+        >
+          <h3 class="font-semibold text-gray-900 mb-4 text-sm">
+            Campos de la respuesta
+          </h3>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >ruc</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                Número de RUC del contribuyente (11 dígitos)
+              </p>
             </div>
-            <div id="starter-ahorro" class="hidden mb-2">
-              <p class="text-sm text-gray-400 mb-1">Equivale a S/. 14/mes</p>
-              <span class="inline-flex items-center gap-1 bg-green-50 border border-green-200 text-green-700 text-xs font-semibold px-2.5 py-1 rounded-full">🏷️ Ahorras S/. 58/año</span>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >razonSocial</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                Nombre o razón social registrada en SUNAT
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >estado</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                Estado del contribuyente: ACTIVO, BAJA, etc.
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >condicion</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                Condición de domicilio: HABIDO, NO HABIDO, etc.
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >direccion</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                Domicilio fiscal registrado
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >ubigeo</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                Ubicación geográfica: Departamento, Provincia, Distrito
+              </p>
             </div>
           </div>
-          <ul class="space-y-3 text-sm text-gray-600 mb-8 flex-1">
-            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Consultas ilimitadas</li>
-            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> 10 req/seg (rate limit)</li>
-            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> GET /ruc/{ruc}</li>
-            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Datos completos del RUC</li>
-            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Soporte por correo</li>
-            <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Factura electrónica</li>
-          </ul>
-          <a href="https://app.consultaperuapi.com/dashboard/planes" target="_blank"
-            class="block text-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 px-4 rounded-xl text-sm transition-colors">
-            Suscribirse al Starter
-          </a>
         </div>
 
-        <!-- Pro -->
-        <div class="bg-blue-600 rounded-2xl p-7 flex flex-col relative overflow-hidden">
-          <div class="absolute top-4 right-4 bg-white/20 text-white text-xs font-medium px-2.5 py-1 rounded-full">Popular</div>
-          <div class="mb-6">
-            <p class="font-semibold text-white mb-1">Pro</p>
-            <div class="flex items-end gap-1 mb-2">
-              <span id="pro-precio" class="text-4xl font-bold text-white">S/. 35</span>
-              <span id="pro-ciclo" class="text-blue-200 text-sm mb-1">/mes</span>
+        <!-- Campos de respuesta DNI -->
+        <div
+          id="response-fields-dni"
+          class="mt-8 bg-gray-50 rounded-2xl border border-gray-200 p-6 hidden"
+        >
+          <h3 class="font-semibold text-gray-900 mb-4 text-sm">
+            Campos de la respuesta
+          </h3>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >dni</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                Número de DNI consultado (8 dígitos)
+              </p>
             </div>
-            <div id="pro-ahorro" class="hidden mb-2">
-              <p class="text-sm text-blue-200 mb-1">Equivale a S/. 25/mes</p>
-              <span class="inline-flex items-center gap-1 bg-white/15 border border-white/30 text-white text-xs font-semibold px-2.5 py-1 rounded-full">🏷️ Ahorras S/. 120/año</span>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >nombres</code
+              >
+              <p class="text-xs text-gray-500 pt-1">Nombres de la persona</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >apellidoPaterno</code
+              >
+              <p class="text-xs text-gray-500 pt-1">Apellido paterno</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >apellidoMaterno</code
+              >
+              <p class="text-xs text-gray-500 pt-1">Apellido materno</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >nombreCompleto</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                Nombre completo formateado
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >direccion</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                Dirección del domicilio fiscal (puede ser null)
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >fuente</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                Fuente de datos: padron_local o callback
+              </p>
             </div>
           </div>
-          <ul class="space-y-3 text-sm text-blue-100 mb-8 flex-1">
-            <li class="flex items-center gap-2"><span class="text-white">✓</span> Consultas ilimitadas</li>
-            <li class="flex items-center gap-2"><span class="text-white">✓</span> 30 req/seg (rate limit)</li>
-            <li class="flex items-center gap-2"><span class="text-white">✓</span> GET /ruc/{ruc}</li>
-            <li class="flex items-center gap-2"><span class="text-white">✓</span> Búsqueda por razón social</li>
-            <li class="flex items-center gap-2"><span class="text-white">✓</span> Representantes legales e historial</li>
-            <li class="flex items-center gap-2"><span class="text-white">✓</span> Endpoints futuros (DNI, TC, etc.)</li>
-            <li class="flex items-center gap-2"><span class="text-white">✓</span> Soporte por WhatsApp</li>
-            <li class="flex items-center gap-2"><span class="text-white">✓</span> SLA 99.5% · Factura electrónica</li>
-          </ul>
-          <a href="https://app.consultaperuapi.com/dashboard/planes" target="_blank"
-            class="block text-center bg-white hover:bg-gray-50 text-blue-600 font-semibold py-2.5 px-4 rounded-xl text-sm transition-colors">
-            Suscribirse al Pro
-          </a>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      let currentEndpoint = "ruc";
+
+      function showTab(lang) {
+        document
+          .querySelectorAll(`.tab-panel-${currentEndpoint}`)
+          .forEach((p) => p.classList.add("hidden"));
+        document.querySelectorAll(".tab-btn").forEach((b) => {
+          b.classList.remove("bg-blue-600", "text-white");
+          b.classList.add("bg-gray-100", "text-gray-600");
+        });
+        document
+          .getElementById("panel-" + lang + "-" + currentEndpoint)
+          .classList.remove("hidden");
+        const activeBtn = document.getElementById("tab-" + lang);
+        activeBtn.classList.remove("bg-gray-100", "text-gray-600");
+        activeBtn.classList.add("bg-blue-600", "text-white");
+      }
+
+      function selectEndpoint(endpoint) {
+        currentEndpoint = endpoint;
+        // Actualizar botones de endpoint
+        document.querySelectorAll(".endpoint-btn").forEach((b) => {
+          b.classList.remove("bg-blue-50", "text-blue-700", "border-blue-200");
+          b.classList.add("bg-gray-100", "text-gray-600", "hover:bg-gray-200");
+        });
+        document
+          .getElementById("endpoint-" + endpoint)
+          .classList.remove(
+            "bg-gray-100",
+            "text-gray-600",
+            "hover:bg-gray-200",
+          );
+        document
+          .getElementById("endpoint-" + endpoint)
+          .classList.add("bg-blue-50", "text-blue-700", "border-blue-200");
+
+        // Actualizar info de endpoint
+        document
+          .getElementById("endpoint-info-ruc")
+          .classList.toggle("hidden", endpoint !== "ruc");
+        document
+          .getElementById("endpoint-info-dni")
+          .classList.toggle("hidden", endpoint !== "dni");
+
+        // Actualizar campos de respuesta
+        document
+          .getElementById("response-fields-ruc")
+          .classList.toggle("hidden", endpoint !== "ruc");
+        document
+          .getElementById("response-fields-dni")
+          .classList.toggle("hidden", endpoint !== "dni");
+
+        // Actualizar paneles de código
+        document
+          .querySelectorAll(".tab-panel-ruc")
+          .forEach((p) => p.classList.toggle("hidden", endpoint !== "ruc"));
+        document
+          .querySelectorAll(".tab-panel-dni")
+          .forEach((p) => p.classList.toggle("hidden", endpoint !== "dni"));
+
+        // Resetear tabs al de cURL
+        showTab("curl");
+      }
+
+      // Inicializar endpoint RUC por defecto
+      selectEndpoint("ruc");
+    </script>
+
+    <!-- PRECIOS -->
+    <section id="precios" class="py-24 px-6">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-10">
+          <p class="text-sm font-medium text-blue-600 mb-3">Precios</p>
+          <h2
+            class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight"
+          >
+            Simple y transparente
+          </h2>
+          <p class="text-gray-500 mt-3 text-sm">
+            Sin costos ocultos. Cancela cuando quieras.
+          </p>
         </div>
 
-      </div>
-      <p class="text-center text-xs text-gray-400 mt-6">Cancela en cualquier momento</p>
-
-      <script>
-        function setCycle(cycle) {
-          var isAnnual = cycle === 'annual';
-
-          // Toggle buttons
-          document.getElementById('btn-mensual').className = 'px-5 py-2 rounded-lg text-sm font-medium transition-colors ' + (!isAnnual ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700');
-          document.getElementById('btn-anual').className = 'px-5 py-2 rounded-lg text-sm font-medium transition-colors ' + (isAnnual ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700');
-
-          // Starter
-          document.getElementById('starter-precio').textContent = isAnnual ? 'S/. 170' : 'S/. 19';
-          document.getElementById('starter-ciclo').textContent = isAnnual ? '/año' : '/mes';
-          document.getElementById('starter-ahorro').className = 'mb-2 ' + (isAnnual ? '' : 'hidden');
-
-          // Pro
-          document.getElementById('pro-precio').textContent = isAnnual ? 'S/. 300' : 'S/. 35';
-          document.getElementById('pro-ciclo').textContent = isAnnual ? '/año' : '/mes';
-          document.getElementById('pro-ahorro').className = 'mb-2 ' + (isAnnual ? '' : 'hidden');
-        }
-      </script>
-    </div>
-  </section>
-
-  <!-- CTA FINAL -->
-  <section class="py-24 px-6 bg-gray-950">
-    <div class="max-w-3xl mx-auto text-center">
-      <h2 class="text-3xl md:text-4xl font-bold text-white mb-5 tracking-tight">
-        Empieza a consultar el padrón SUNAT hoy
-      </h2>
-      <p class="text-gray-400 mb-8 leading-relaxed">
-        Crea tu cuenta gratis y realiza tus primeras 100 consultas sin costo. Sin tarjeta de crédito requerida.
-      </p>
-      <a href="https://app.consultaperuapi.com" target="_blank"
-        class="inline-block bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-3.5 rounded-xl transition-colors text-sm shadow-lg shadow-blue-500/20">
-        Crear cuenta gratis →
-      </a>
-      <p class="text-gray-600 text-xs mt-5">Plan gratuito · Sin límite de tiempo · Sin tarjeta de crédito</p>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="border-t border-gray-800 bg-gray-950 py-10 px-6">
-    <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2">
-        <div class="w-6 h-6 rounded-md bg-blue-600 flex items-center justify-center">
-          <svg class="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
-          </svg>
+        <!-- Toggle mensual / anual -->
+        <div class="flex justify-center mb-10">
+          <div
+            class="inline-flex rounded-xl border border-gray-200 bg-gray-50 p-1 gap-1"
+          >
+            <button
+              id="btn-mensual"
+              onclick="setCycle('monthly')"
+              class="px-5 py-2 rounded-lg text-sm font-medium transition-colors bg-white shadow-sm text-gray-900"
+            >
+              Mensual
+            </button>
+            <button
+              id="btn-anual"
+              onclick="setCycle('annual')"
+              class="px-5 py-2 rounded-lg text-sm font-medium transition-colors text-gray-500 hover:text-gray-700"
+            >
+              Anual
+              <span
+                class="ml-1.5 text-xs font-semibold text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full"
+                >Ahorra hasta 26%</span
+              >
+            </button>
+          </div>
         </div>
-        <span class="text-gray-400 text-sm">Consulta Perú API</span>
-      </div>
-      <p class="text-gray-600 text-xs">© 2025 Consulta Perú API · Datos del padrón tributario SUNAT</p>
-      <a href="https://app.consultaperuapi.com" target="_blank" class="text-gray-500 hover:text-gray-300 text-xs transition-colors">
-        Ir a la plataforma →
-      </a>
-    </div>
-  </footer>
 
-</body>
+        <div class="grid md:grid-cols-3 gap-6">
+          <!-- Free -->
+          <div
+            class="bg-white rounded-2xl border border-gray-200 p-7 flex flex-col"
+          >
+            <div class="mb-6">
+              <p class="font-semibold text-gray-900 mb-1">Free</p>
+              <div class="flex items-end gap-1 mb-3">
+                <span class="text-4xl font-bold text-gray-900">Gratis</span>
+              </div>
+              <p class="text-sm text-gray-500">500 consultas/mes</p>
+            </div>
+            <ul class="space-y-3 text-sm text-gray-600 mb-8 flex-1">
+              <li class="flex items-center gap-2">
+                <span class="text-green-500">✓</span> 500 consultas mensuales
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-green-500">✓</span> 2 req/seg (rate limit)
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-green-500">✓</span> POST /ruc/{ruc} o POST
+                /dni/{dni}
+              </li>
+            </ul>
+            <a
+              href="https://app.consultaperuapi.com"
+              target="_blank"
+              class="block text-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 px-4 rounded-xl text-sm transition-colors"
+            >
+              Empezar gratis
+            </a>
+          </div>
+
+          <!-- Starter -->
+          <div
+            class="bg-white rounded-2xl border border-gray-200 p-7 flex flex-col"
+          >
+            <div class="mb-6">
+              <p class="font-semibold text-gray-900 mb-1">Starter</p>
+              <div class="flex items-end gap-1 mb-2">
+                <span
+                  id="starter-precio"
+                  class="text-4xl font-bold text-gray-900"
+                  >S/. 19</span
+                >
+                <span id="starter-ciclo" class="text-gray-400 text-sm mb-1"
+                  >/mes</span
+                >
+              </div>
+              <div id="starter-ahorro" class="hidden mb-2">
+                <p class="text-sm text-gray-400 mb-1">Equivale a S/. 14/mes</p>
+                <span
+                  class="inline-flex items-center gap-1 bg-green-50 border border-green-200 text-green-700 text-xs font-semibold px-2.5 py-1 rounded-full"
+                  >🏷️ Ahorras S/. 58/año</span
+                >
+              </div>
+            </div>
+            <ul class="space-y-3 text-sm text-gray-600 mb-8 flex-1">
+              <li class="flex items-center gap-2">
+                <span class="text-green-500">✓</span> Consultas ilimitadas
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-green-500">✓</span> 10 req/seg (rate limit)
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-green-500">✓</span> POST /ruc/{ruc} o POST
+                /dni/{dni}
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-green-500">✓</span> Datos completos del RUC y
+                DNI
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-green-500">✓</span> Documentación y ejemplos
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-green-500">✓</span> Endpoints futuros (DNI,
+                TC, etc.)
+              </li>
+            </ul>
+            <a
+              href="https://app.consultaperuapi.com/dashboard/planes"
+              target="_blank"
+              class="block text-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 px-4 rounded-xl text-sm transition-colors"
+            >
+              Suscribirse al Starter
+            </a>
+          </div>
+
+          <!-- Pro -->
+          <div
+            class="bg-blue-600 rounded-2xl p-7 flex flex-col relative overflow-hidden"
+          >
+            <div
+              class="absolute top-4 right-4 bg-white/20 text-white text-xs font-medium px-2.5 py-1 rounded-full"
+            >
+              Popular
+            </div>
+            <div class="mb-6">
+              <p class="font-semibold text-white mb-1">Pro</p>
+              <div class="flex items-end gap-1 mb-2">
+                <span id="pro-precio" class="text-4xl font-bold text-white"
+                  >S/. 35</span
+                >
+                <span id="pro-ciclo" class="text-blue-200 text-sm mb-1"
+                  >/mes</span
+                >
+              </div>
+              <div id="pro-ahorro" class="hidden mb-2">
+                <p class="text-sm text-blue-200 mb-1">Equivale a S/. 25/mes</p>
+                <span
+                  class="inline-flex items-center gap-1 bg-white/15 border border-white/30 text-white text-xs font-semibold px-2.5 py-1 rounded-full"
+                  >🏷️ Ahorras S/. 120/año</span
+                >
+              </div>
+            </div>
+            <ul class="space-y-3 text-sm text-blue-100 mb-8 flex-1">
+              <li class="flex items-center gap-2">
+                <span class="text-white">✓</span> Consultas ilimitadas
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">✓</span> 30 req/seg (rate limit)
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">✓</span> POST /ruc/{ruc} o POST
+                /dni/{dni}
+              </li>
+
+              <li class="flex items-center gap-2">
+                <span class="text-white">✓</span> Datos completos del RUC y DNI
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">✓</span> Documentación y ejemplos
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">✓</span> Consulta por DNI (padrón local
+                + fallback)
+              </li>
+
+              <li class="flex items-center gap-2">
+                <span class="text-white">✓</span> Endpoints futuros (DNI, TC,
+                etc.)
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">✓</span> Soporte virtual para
+                implementación
+              </li>
+            </ul>
+            <a
+              href="https://app.consultaperuapi.com/dashboard/planes"
+              target="_blank"
+              class="block text-center bg-white hover:bg-gray-50 text-blue-600 font-semibold py-2.5 px-4 rounded-xl text-sm transition-colors"
+            >
+              Suscribirse al Pro
+            </a>
+          </div>
+        </div>
+        <p class="text-center text-xs text-gray-400 mt-6">
+          Cancela en cualquier momento
+        </p>
+
+        <script>
+          function setCycle(cycle) {
+            var isAnnual = cycle === "annual";
+
+            // Toggle buttons
+            document.getElementById("btn-mensual").className =
+              "px-5 py-2 rounded-lg text-sm font-medium transition-colors " +
+              (!isAnnual
+                ? "bg-white shadow-sm text-gray-900"
+                : "text-gray-500 hover:text-gray-700");
+            document.getElementById("btn-anual").className =
+              "px-5 py-2 rounded-lg text-sm font-medium transition-colors " +
+              (isAnnual
+                ? "bg-white shadow-sm text-gray-900"
+                : "text-gray-500 hover:text-gray-700");
+
+            // Starter
+            document.getElementById("starter-precio").textContent = isAnnual
+              ? "S/. 170"
+              : "S/. 19";
+            document.getElementById("starter-ciclo").textContent = isAnnual
+              ? "/año"
+              : "/mes";
+            document.getElementById("starter-ahorro").className =
+              "mb-2 " + (isAnnual ? "" : "hidden");
+
+            // Pro
+            document.getElementById("pro-precio").textContent = isAnnual
+              ? "S/. 300"
+              : "S/. 35";
+            document.getElementById("pro-ciclo").textContent = isAnnual
+              ? "/año"
+              : "/mes";
+            document.getElementById("pro-ahorro").className =
+              "mb-2 " + (isAnnual ? "" : "hidden");
+          }
+        </script>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="py-24 px-6 bg-gray-950">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2
+          class="text-3xl md:text-4xl font-bold text-white mb-5 tracking-tight"
+        >
+          Empieza a consultar el padrón SUNAT hoy
+        </h2>
+        <p class="text-gray-400 mb-8 leading-relaxed">
+          Crea tu cuenta gratis y realiza tus primeras 500 consultas sin costo.
+          Sin tarjeta de crédito requerida.
+        </p>
+        <a
+          href="https://app.consultaperuapi.com"
+          target="_blank"
+          class="inline-block bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-3.5 rounded-xl transition-colors text-sm shadow-lg shadow-blue-500/20"
+        >
+          Crear cuenta gratis →
+        </a>
+        <p class="text-gray-600 text-xs mt-5">
+          Plan gratuito · Sin límite de tiempo · Sin tarjeta de crédito
+        </p>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-gray-800 bg-gray-950 py-10 px-6">
+      <div
+        class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4"
+      >
+        <div class="flex items-center gap-2">
+          <div
+            class="w-6 h-6 rounded-md bg-blue-600 flex items-center justify-center"
+          >
+            <svg
+              class="w-3.5 h-3.5 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"
+              />
+            </svg>
+          </div>
+          <span class="text-gray-400 text-sm">Consulta Perú API</span>
+        </div>
+        <p class="text-gray-600 text-xs">
+          © 2025 Consulta Perú API · Datos del padrón tributario SUNAT
+        </p>
+        <a
+          href="https://app.consultaperuapi.com"
+          target="_blank"
+          class="text-gray-500 hover:text-gray-300 text-xs transition-colors"
+        >
+          Ir a la plataforma →
+        </a>
+      </div>
+    </footer>
+  </body>
 </html>
