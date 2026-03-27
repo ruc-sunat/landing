@@ -47,6 +47,10 @@
         overflow-x: auto;
       }
     </style>
+    <script>
+      // Inyectar token demo desde variables de entorno (Vercel)
+      window.DEMO_API_TOKEN = '{{ NEXT_PUBLIC_DEMO_API_TOKEN }}';
+    </script>
   </head>
   <body class="font-sans bg-white text-gray-900 antialiased">
     <!-- NAV -->
@@ -1128,7 +1132,7 @@
         testSubmit.disabled = true;
 
         try {
-          const apiToken = token || 'a90d0576-7104-45a4-b05e-8dda70a721a9';
+          const apiToken = token || window.DEMO_API_TOKEN || '';
           const endpoint = 'https://api.consultaperuapi.com/api/v1/consultas';
 
           const response = await fetch(endpoint, {
