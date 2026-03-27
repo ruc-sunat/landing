@@ -1170,7 +1170,7 @@
         testSubmit.disabled = true;
 
         try {
-          const apiToken = window.DEMO_API_TOKEN || "";
+          const apiToken = window.NEXT_PUBLIC_DEMO_API_TOKEN || "";
           const endpoint = "https://api.consultaperuapi.com/api/v1/consultas";
 
           const response = await fetch(endpoint, {
