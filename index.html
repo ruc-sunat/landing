@@ -1025,24 +1025,6 @@
                 </p>
               </div>
 
-              <div>
-                <label
-                  for="test-token"
-                  class="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Token API (opcional)
-                </label>
-                <input
-                  id="test-token"
-                  type="password"
-                  placeholder="Tu token API"
-                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
-                />
-                <p class="text-xs text-gray-500 mt-1">
-                  Deja vacío para usar el token de demostración
-                </p>
-              </div>
-
               <button
                 type="submit"
                 id="test-submit"
@@ -1157,7 +1139,6 @@
       // Prueba de API
       const testForm = document.getElementById("test-form");
       const testRuc = document.getElementById("test-ruc");
-      const testToken = document.getElementById("test-token");
       const testSubmit = document.getElementById("test-submit");
       const testLoading = document.getElementById("test-loading");
       const testError = document.getElementById("test-error");
@@ -1173,7 +1154,6 @@
       testForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const ruc = testRuc.value.trim();
-        const token = testToken.value.trim();
 
         if (ruc.length !== 11) {
           testError.textContent = "El RUC debe tener exactamente 11 dígitos";
@@ -1190,7 +1170,7 @@
         testSubmit.disabled = true;
 
         try {
-          const apiToken = token || window.DEMO_API_TOKEN || "";
+          const apiToken = window.DEMO_API_TOKEN || "";
           const endpoint = "https://api.consultaperuapi.com/api/v1/consultas";
 
           const response = await fetch(endpoint, {
