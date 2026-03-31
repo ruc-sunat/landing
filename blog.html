@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog | Consulta Perú API</title>
+    <meta
+      name="description"
+      content="Recursos, guías de integración y tutoriales sobre la API de consulta al padrón SUNAT."
+    />
+    <link rel="icon" type="image/svg+xml" href="icon.svg" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "ui-sans-serif", "system-ui"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      html { scroll-behavior: smooth; }
+      .gradient-text {
+        background: linear-gradient(135deg, #1d4ed8, #2563eb);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    </style>
+    <script>
+      window.HASHNODE_PUBLICATION_HOST = "consultaperuapi.hashnode.dev";
+    </script>
+  </head>
+  <body class="font-sans bg-white text-gray-900 antialiased">
+
+    <!-- NAV -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
+            <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+            </svg>
+          </div>
+          <span class="font-semibold text-gray-900 text-sm">Consulta Perú API</span>
+        </a>
+        <div class="hidden md:flex items-center gap-8 text-sm text-gray-500">
+          <a href="index.html#caracteristicas" class="hover:text-gray-900 transition-colors">Características</a>
+          <a href="index.html#como-funciona" class="hover:text-gray-900 transition-colors">Cómo funciona</a>
+          <a href="index.html#guia" class="hover:text-gray-900 transition-colors">Guía</a>
+          <a href="index.html#precios" class="hover:text-gray-900 transition-colors">Precios</a>
+          <a href="blog.html" class="text-blue-600 font-medium">Blog</a>
+        </div>
+        <a
+          href="https://app.consultaperuapi.com"
+          target="_blank"
+          class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+        >
+          Empezar gratis
+        </a>
+      </div>
+    </nav>
+
+    <!-- HEADER -->
+    <div class="pt-32 pb-12 px-6 border-b border-gray-100">
+      <div class="max-w-5xl mx-auto">
+        <a href="index.html" class="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-gray-600 transition-colors mb-6">
+          ← Volver al inicio
+        </a>
+        <p class="text-blue-600 text-sm font-semibold uppercase tracking-wider mb-2">Blog</p>
+        <h1 class="text-4xl font-bold text-gray-900 tracking-tight mb-3">
+          Recursos y tutoriales
+        </h1>
+        <p class="text-gray-500 text-lg max-w-xl">
+          Guías de integración, casos de uso y novedades sobre la API de consulta al padrón SUNAT.
+        </p>
+      </div>
+    </div>
+
+    <!-- POSTS -->
+    <main class="py-16 px-6">
+      <div class="max-w-5xl mx-auto">
+
+        <!-- Skeleton -->
+        <div id="blog-loading" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="rounded-2xl bg-white border border-gray-100 overflow-hidden animate-pulse">
+            <div class="aspect-video bg-gray-100"></div>
+            <div class="p-5 space-y-3">
+              <div class="h-3 bg-gray-100 rounded w-1/3"></div>
+              <div class="h-4 bg-gray-100 rounded w-full"></div>
+              <div class="h-4 bg-gray-100 rounded w-3/4"></div>
+              <div class="h-3 bg-gray-100 rounded w-2/3"></div>
+              <div class="h-3 bg-gray-100 rounded w-1/2 mt-4"></div>
+            </div>
+          </div>
+          <div class="rounded-2xl bg-white border border-gray-100 overflow-hidden animate-pulse hidden sm:block">
+            <div class="aspect-video bg-gray-100"></div>
+            <div class="p-5 space-y-3">
+              <div class="h-3 bg-gray-100 rounded w-1/3"></div>
+              <div class="h-4 bg-gray-100 rounded w-full"></div>
+              <div class="h-4 bg-gray-100 rounded w-3/4"></div>
+              <div class="h-3 bg-gray-100 rounded w-2/3"></div>
+              <div class="h-3 bg-gray-100 rounded w-1/2 mt-4"></div>
+            </div>
+          </div>
+          <div class="rounded-2xl bg-white border border-gray-100 overflow-hidden animate-pulse hidden lg:block">
+            <div class="aspect-video bg-gray-100"></div>
+            <div class="p-5 space-y-3">
+              <div class="h-3 bg-gray-100 rounded w-1/3"></div>
+              <div class="h-4 bg-gray-100 rounded w-full"></div>
+              <div class="h-4 bg-gray-100 rounded w-3/4"></div>
+              <div class="h-3 bg-gray-100 rounded w-2/3"></div>
+              <div class="h-3 bg-gray-100 rounded w-1/2 mt-4"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grid de posts -->
+        <div id="blog-posts" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 hidden"></div>
+
+        <!-- Sin posts -->
+        <div id="blog-empty" class="hidden text-center py-24">
+          <p class="text-gray-400 text-sm mb-4">No hay artículos publicados aún.</p>
+          <a href="index.html" class="text-blue-600 text-sm hover:underline">← Volver al inicio</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-gray-800 bg-gray-950 py-10 px-6">
+      <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-md bg-blue-600 flex items-center justify-center">
+            <svg class="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+            </svg>
+          </div>
+          <span class="text-gray-400 text-sm">Consulta Perú API</span>
+        </div>
+        <p class="text-gray-600 text-xs">© 2025 Consulta Perú API · Datos del padrón tributario SUNAT</p>
+        <a href="https://app.consultaperuapi.com" target="_blank" class="text-gray-500 hover:text-gray-300 text-xs transition-colors">
+          Ir a la plataforma →
+        </a>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        var HASHNODE_HOST = window.HASHNODE_PUBLICATION_HOST || "";
+
+        var query = `
+          query GetPosts($host: String!, $first: Int!) {
+            publication(host: $host) {
+              posts(first: $first) {
+                edges {
+                  node {
+                    title slug brief publishedAt readTimeInMinutes
+                    coverImage { url }
+                    tags { name }
+                    url
+                  }
+                }
+              }
+            }
+          }
+        `;
+
+        function formatDate(iso) {
+          return new Date(iso).toLocaleDateString("es-PE", {
+            year: "numeric", month: "long", day: "numeric",
+          });
+        }
+
+        function buildCard(post) {
+          var coverHtml = post.coverImage
+            ? '<img src="' + post.coverImage.url + '" alt="' + post.title.replace(/"/g, "&quot;") + '" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />'
+            : '<div class="w-full h-full bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center"><span class="text-4xl text-blue-200">✍️</span></div>';
+
+          var tagsHtml = (post.tags || []).slice(0, 3).map(function (t) {
+            return '<span class="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium border border-blue-100">' + t.name + "</span>";
+          }).join("");
+
+          return (
+            '<a href="' + post.url + '" target="_blank" rel="noopener" class="group flex flex-col rounded-2xl bg-white border border-gray-100 hover:border-blue-100 hover:shadow-md transition-all overflow-hidden">'
+            + '<div class="aspect-video overflow-hidden bg-gray-50">' + coverHtml + "</div>"
+            + '<div class="flex flex-col flex-1 p-5 gap-3">'
+            + (tagsHtml ? '<div class="flex flex-wrap gap-1">' + tagsHtml + "</div>" : "")
+            + '<h2 class="text-sm font-semibold text-gray-900 leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">' + post.title + "</h2>"
+            + (post.brief ? '<p class="text-xs text-gray-500 line-clamp-3 flex-1">' + post.brief + "</p>" : "")
+            + '<div class="flex items-center gap-2 text-xs text-gray-400 mt-auto pt-2 border-t border-gray-50">'
+            + "<time>" + formatDate(post.publishedAt) + "</time>"
+            + "<span>·</span>"
+            + "<span>" + post.readTimeInMinutes + " min de lectura</span>"
+            + "</div>"
+            + "</div>"
+            + "</a>"
+          );
+        }
+
+        fetch("https://gql.hashnode.com", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query: query, variables: { host: HASHNODE_HOST, first: 20 } }),
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            document.getElementById("blog-loading").classList.add("hidden");
+            var edges = (data.data && data.data.publication && data.data.publication.posts.edges) || [];
+            var container = document.getElementById("blog-posts");
+            if (edges.length === 0) {
+              document.getElementById("blog-empty").classList.remove("hidden");
+              return;
+            }
+            edges.forEach(function (e) {
+              container.innerHTML += buildCard(e.node);
+            });
+            container.classList.remove("hidden");
+          })
+          .catch(function () {
+            document.getElementById("blog-loading").classList.add("hidden");
+            document.getElementById("blog-empty").classList.remove("hidden");
+          });
+      })();
+    </script>
+  </body>
+</html>
