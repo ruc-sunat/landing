@@ -51,6 +51,15 @@
       // Inyectar token demo desde variables de entorno (Vercel)
       window.DEMO_API_TOKEN = "{{ NEXT_PUBLIC_DEMO_API_TOKEN }}";
     </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4N23V2VVJZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-4N23V2VVJZ');
+    </script>
   </head>
   <body class="font-sans bg-white text-gray-900 antialiased">
     <!-- NAV -->
