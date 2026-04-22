@@ -142,8 +142,8 @@
           class="text-xl text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed"
         >
           API REST simple y rápida que conecta tu sistema con la información
-          oficial del Perú — SUNAT, RENIEC y SBS en un solo lugar. Sin
-          complicaciones, sin burocracia.
+          oficial del Perú — SUNAT, RENIEC, SBS y Validación CPE en un solo
+          lugar. Sin complicaciones, sin burocracia.
         </p>
         <div
           class="flex flex-col sm:flex-row items-center justify-center gap-3"
@@ -436,6 +436,34 @@
               por fecha, actualizados diariamente.
             </p>
           </div>
+
+          <!-- Feature 8 -->
+          <div
+            class="bg-white rounded-2xl border border-gray-200 p-6 hover:border-blue-200 hover:shadow-sm transition-all"
+          >
+            <div
+              class="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center mb-4"
+            >
+              <svg
+                class="w-5 h-5 text-orange-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">Validación de CPE</h3>
+            <p class="text-sm text-gray-500 leading-relaxed">
+              Verifica facturas, boletas y notas de crédito/débito electrónicas
+              directamente en SUNAT. Estado ACEPTADO, ANULADO y más.
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -533,6 +561,13 @@
             class="endpoint-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
           >
             💱 Tipo de cambio
+          </button>
+          <button
+            onclick="selectEndpoint('cpe')"
+            id="endpoint-cpe"
+            class="endpoint-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
+          >
+            🧾 Validar CPE
           </button>
         </div>
 
@@ -651,6 +686,36 @@
             <code class="bg-gray-100 px-1 rounded"
               >{"token": "TU_API_KEY", "fecha": "2026-04-17"}</code
             >
+          </p>
+        </div>
+
+        <div
+          id="endpoint-info-cpe"
+          class="mb-6 p-4 bg-orange-50 rounded-xl border border-orange-200 hidden"
+        >
+          <p
+            class="text-xs font-semibold text-orange-600 uppercase tracking-wide mb-2"
+          >
+            Endpoint
+          </p>
+          <div class="flex items-center gap-3">
+            <span
+              class="bg-orange-100 text-orange-700 text-xs font-bold px-2.5 py-1 rounded"
+              >POST</span
+            >
+            <code class="text-sm font-mono text-gray-800"
+              >/api/v1/cpe/consultar</code
+            >
+          </div>
+          <p class="text-xs text-gray-600 mt-2">
+            Body:
+            <code class="bg-gray-100 px-1 rounded"
+              >{"token":"TU_API_KEY","ruc":"20601138572","tipo":"01","serie":"F001","correlativo":"1234","fecha":"2026-01-15","monto":1180.00}</code
+            >
+          </p>
+          <p class="text-xs text-gray-500 mt-1">
+            tipo: 01=Factura · 03=Boleta · 07=Nota de crédito · 08=Nota de
+            débito
           </p>
         </div>
 
@@ -1068,6 +1133,175 @@
           </div>
         </div>
 
+        <!-- cURL CPE -->
+        <div id="panel-curl-cpe" class="tab-panel-cpe hidden">
+          <div class="code-block shadow-xl shadow-gray-100">
+            <div
+              class="flex items-center gap-2 px-5 py-3 border-b border-white/10"
+            >
+              <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+              <span class="ml-3 text-xs text-gray-400 font-mono"
+                >validar_cpe.sh</span
+              >
+            </div>
+            <pre
+              class="p-6 text-sm leading-relaxed overflow-x-auto"
+            ><code><span class="text-gray-400"># Valida un comprobante electrónico en SUNAT</span>
+<span class="text-blue-400">curl</span> <span class="text-green-400">-X POST</span> \
+  <span class="text-yellow-300">"https://api.consultaperuapi.com/api/v1/cpe/consultar"</span> \
+  <span class="text-blue-300">-H</span> <span class="text-yellow-300">"Content-Type: application/json"</span> \
+  <span class="text-blue-300">-d</span> <span class="text-yellow-300">'{
+    "token": "<span class="text-orange-300">tu_api_key</span>",
+    "ruc": "20601138572",
+    "tipo": "01",
+    "serie": "F001",
+    "correlativo": "1234",
+    "fecha": "2026-01-15",
+    "monto": 1180.00
+  }'</span>
+
+<span class="text-gray-400"># Respuesta</span>
+<span class="text-gray-300">{</span>
+  <span class="text-blue-300">"valido"</span><span class="text-gray-300">:</span> <span class="text-blue-400">true</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"ruc_emisor"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"20601138572"</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"descripcion_tipo"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"Factura"</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"serie"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"F001"</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"correlativo"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"1234"</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"fecha_emision"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"2026-01-15"</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"monto_total"</span><span class="text-gray-300">:</span> <span class="text-green-400">1180</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"estado"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"ACEPTADO"</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"estado_contribuyente"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"ACTIVO"</span><span class="text-gray-300">,</span>
+  <span class="text-blue-300">"fuente"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"SUNAT"</span>
+<span class="text-gray-300">}</span></code></pre>
+          </div>
+        </div>
+
+        <!-- Python CPE -->
+        <div id="panel-python-cpe" class="tab-panel-cpe hidden">
+          <div class="code-block shadow-xl shadow-gray-100">
+            <div
+              class="flex items-center gap-2 px-5 py-3 border-b border-white/10"
+            >
+              <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+              <span class="ml-3 text-xs text-gray-400 font-mono"
+                >validar_cpe.py</span
+              >
+            </div>
+            <pre
+              class="p-6 text-sm leading-relaxed overflow-x-auto"
+            ><code><span class="text-blue-400">import</span> <span class="text-gray-300">requests</span>
+
+<span class="text-green-400">API_KEY</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"<span class="text-orange-300">tu_api_key</span>"</span>
+
+<span class="text-green-400">response</span> <span class="text-gray-300">=</span> <span class="text-gray-300">requests.</span><span class="text-blue-400">post</span><span class="text-gray-300">(</span>
+    <span class="text-yellow-300">"https://api.consultaperuapi.com/api/v1/cpe/consultar"</span><span class="text-gray-300">,</span>
+    <span class="text-green-400">json</span><span class="text-gray-300">={</span>
+        <span class="text-yellow-300">"token"</span><span class="text-gray-300">: API_KEY,</span>
+        <span class="text-yellow-300">"ruc"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"20601138572"</span><span class="text-gray-300">,</span>
+        <span class="text-yellow-300">"tipo"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"01"</span><span class="text-gray-300">,</span>
+        <span class="text-yellow-300">"serie"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"F001"</span><span class="text-gray-300">,</span>
+        <span class="text-yellow-300">"correlativo"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"1234"</span><span class="text-gray-300">,</span>
+        <span class="text-yellow-300">"fecha"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"2026-01-15"</span><span class="text-gray-300">,</span>
+        <span class="text-yellow-300">"monto"</span><span class="text-gray-300">:</span> <span class="text-green-400">1180.00</span>
+    <span class="text-gray-300">}</span>
+<span class="text-gray-300">)</span>
+
+<span class="text-green-400">data</span> <span class="text-gray-300">=</span> <span class="text-gray-300">response.</span><span class="text-blue-400">json</span><span class="text-gray-300">()</span>
+<span class="text-blue-400">print</span><span class="text-gray-300">(data[</span><span class="text-yellow-300">"valido"</span><span class="text-gray-300">])</span>         <span class="text-gray-400"># True</span>
+<span class="text-blue-400">print</span><span class="text-gray-300">(data[</span><span class="text-yellow-300">"estado"</span><span class="text-gray-300">])</span>         <span class="text-gray-400"># "ACEPTADO"</span>
+<span class="text-blue-400">print</span><span class="text-gray-300">(data[</span><span class="text-yellow-300">"descripcion_tipo"</span><span class="text-gray-300">])</span>  <span class="text-gray-400"># "Factura"</span></code></pre>
+          </div>
+        </div>
+
+        <!-- JavaScript CPE -->
+        <div id="panel-javascript-cpe" class="tab-panel-cpe hidden">
+          <div class="code-block shadow-xl shadow-gray-100">
+            <div
+              class="flex items-center gap-2 px-5 py-3 border-b border-white/10"
+            >
+              <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+              <span class="ml-3 text-xs text-gray-400 font-mono"
+                >validar_cpe.js</span
+              >
+            </div>
+            <pre
+              class="p-6 text-sm leading-relaxed overflow-x-auto"
+            ><code><span class="text-blue-400">const</span> <span class="text-green-400">API_KEY</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"<span class="text-orange-300">tu_api_key</span>"</span><span class="text-gray-300">;</span>
+
+<span class="text-blue-400">const</span> <span class="text-green-400">response</span> <span class="text-gray-300">=</span> <span class="text-blue-400">await</span> <span class="text-gray-300">fetch(</span>
+  <span class="text-yellow-300">"https://api.consultaperuapi.com/api/v1/cpe/consultar"</span><span class="text-gray-300">,</span>
+  <span class="text-gray-300">{</span>
+    <span class="text-green-400">method</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"POST"</span><span class="text-gray-300">,</span>
+    <span class="text-green-400">headers</span><span class="text-gray-300">: {</span> <span class="text-yellow-300">"Content-Type"</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"application/json"</span> <span class="text-gray-300">},</span>
+    <span class="text-green-400">body</span><span class="text-gray-300">:</span> <span class="text-gray-300">JSON.</span><span class="text-blue-400">stringify</span><span class="text-gray-300">({</span>
+      <span class="text-green-400">token</span><span class="text-gray-300">: API_KEY,</span>
+      <span class="text-green-400">ruc</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"20601138572"</span><span class="text-gray-300">,</span>
+      <span class="text-green-400">tipo</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"01"</span><span class="text-gray-300">,</span>
+      <span class="text-green-400">serie</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"F001"</span><span class="text-gray-300">,</span>
+      <span class="text-green-400">correlativo</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"1234"</span><span class="text-gray-300">,</span>
+      <span class="text-green-400">fecha</span><span class="text-gray-300">:</span> <span class="text-yellow-300">"2026-01-15"</span><span class="text-gray-300">,</span>
+      <span class="text-green-400">monto</span><span class="text-gray-300">:</span> <span class="text-green-400">1180.00</span>
+    <span class="text-gray-300">})</span>
+  <span class="text-gray-300">}</span>
+<span class="text-gray-300">);</span>
+
+<span class="text-blue-400">const</span> <span class="text-green-400">data</span> <span class="text-gray-300">=</span> <span class="text-blue-400">await</span> <span class="text-green-400">response</span><span class="text-gray-300">.</span><span class="text-blue-400">json</span><span class="text-gray-300">();</span>
+<span class="text-gray-300">console.</span><span class="text-blue-400">log</span><span class="text-gray-300">(</span><span class="text-green-400">data</span><span class="text-gray-300">.</span><span class="text-green-400">valido</span><span class="text-gray-300">);</span>         <span class="text-gray-400">// true</span>
+<span class="text-gray-300">console.</span><span class="text-blue-400">log</span><span class="text-gray-300">(</span><span class="text-green-400">data</span><span class="text-gray-300">.</span><span class="text-green-400">estado</span><span class="text-gray-300">);</span>         <span class="text-gray-400">// "ACEPTADO"</span>
+<span class="text-gray-300">console.</span><span class="text-blue-400">log</span><span class="text-gray-300">(</span><span class="text-green-400">data</span><span class="text-gray-300">.</span><span class="text-green-400">descripcion_tipo</span><span class="text-gray-300">);</span>  <span class="text-gray-400">// "Factura"</span></code></pre>
+          </div>
+        </div>
+
+        <!-- PHP CPE -->
+        <div id="panel-php-cpe" class="tab-panel-cpe hidden">
+          <div class="code-block shadow-xl shadow-gray-100">
+            <div
+              class="flex items-center gap-2 px-5 py-3 border-b border-white/10"
+            >
+              <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+              <span class="ml-3 text-xs text-gray-400 font-mono"
+                >validar_cpe.php</span
+              >
+            </div>
+            <pre
+              class="p-6 text-sm leading-relaxed overflow-x-auto"
+            ><code><span class="text-blue-400">&lt;?php</span>
+
+<span class="text-green-400">$apiKey</span> <span class="text-gray-300">=</span> <span class="text-yellow-300">"<span class="text-orange-300">tu_api_key</span>"</span><span class="text-gray-300">;</span>
+<span class="text-green-400">$payload</span> <span class="text-gray-300">= [</span>
+    <span class="text-yellow-300">"token"</span>      <span class="text-gray-300">=></span> <span class="text-green-400">$apiKey</span><span class="text-gray-300">,</span>
+    <span class="text-yellow-300">"ruc"</span>        <span class="text-gray-300">=></span> <span class="text-yellow-300">"20601138572"</span><span class="text-gray-300">,</span>
+    <span class="text-yellow-300">"tipo"</span>       <span class="text-gray-300">=></span> <span class="text-yellow-300">"01"</span><span class="text-gray-300">,</span>
+    <span class="text-yellow-300">"serie"</span>      <span class="text-gray-300">=></span> <span class="text-yellow-300">"F001"</span><span class="text-gray-300">,</span>
+    <span class="text-yellow-300">"correlativo"</span><span class="text-gray-300">=></span> <span class="text-yellow-300">"1234"</span><span class="text-gray-300">,</span>
+    <span class="text-yellow-300">"fecha"</span>      <span class="text-gray-300">=></span> <span class="text-yellow-300">"2026-01-15"</span><span class="text-gray-300">,</span>
+    <span class="text-yellow-300">"monto"</span>      <span class="text-gray-300">=></span> <span class="text-green-400">1180.00</span>
+<span class="text-gray-300">];</span>
+
+<span class="text-green-400">$ch</span> <span class="text-gray-300">=</span> <span class="text-blue-400">curl_init</span><span class="text-gray-300">(</span><span class="text-yellow-300">"https://api.consultaperuapi.com/api/v1/cpe/consultar"</span><span class="text-gray-300">);</span>
+<span class="text-blue-400">curl_setopt_array</span><span class="text-gray-300">(</span><span class="text-green-400">$ch</span><span class="text-gray-300">, [</span>
+    <span class="text-gray-300">CURLOPT_RETURNTRANSFER =></span> <span class="text-blue-400">true</span><span class="text-gray-300">,</span>
+    <span class="text-gray-300">CURLOPT_POST           =></span> <span class="text-blue-400">true</span><span class="text-gray-300">,</span>
+    <span class="text-gray-300">CURLOPT_HTTPHEADER     => [</span><span class="text-yellow-300">"Content-Type: application/json"</span><span class="text-gray-300">],</span>
+    <span class="text-gray-300">CURLOPT_POSTFIELDS     =></span> <span class="text-blue-400">json_encode</span><span class="text-gray-300">(</span><span class="text-green-400">$payload</span><span class="text-gray-300">)</span>
+<span class="text-gray-300">]);</span>
+
+<span class="text-green-400">$data</span> <span class="text-gray-300">=</span> <span class="text-blue-400">json_decode</span><span class="text-gray-300">(</span><span class="text-blue-400">curl_exec</span><span class="text-gray-300">(</span><span class="text-green-400">$ch</span><span class="text-gray-300">));</span>
+
+<span class="text-blue-400">echo</span> <span class="text-green-400">$data</span><span class="text-gray-300">->valido</span> <span class="text-gray-300">?</span> <span class="text-yellow-300">"Válido"</span> <span class="text-gray-300">:</span> <span class="text-yellow-300">"No válido"</span><span class="text-gray-300">;</span>
+<span class="text-blue-400">echo</span> <span class="text-green-400">$data</span><span class="text-gray-300">->estado;</span>          <span class="text-gray-400">// "ACEPTADO"</span>
+<span class="text-blue-400">echo</span> <span class="text-green-400">$data</span><span class="text-gray-300">->descripcion_tipo;</span> <span class="text-gray-400">// "Factura"</span></code></pre>
+          </div>
+        </div>
+
         <!-- Nota de campos de respuesta -->
         <div
           id="response-fields-ruc"
@@ -1200,6 +1434,88 @@
           </div>
         </div>
 
+        <!-- Campos de respuesta CPE -->
+        <div
+          id="response-fields-cpe"
+          class="mt-8 bg-gray-50 rounded-2xl border border-gray-200 p-6 hidden"
+        >
+          <h3 class="font-semibold text-gray-900 mb-4 text-sm">
+            Campos de la respuesta
+          </h3>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >valido</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                true si el comprobante existe y es válido en SUNAT
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >estado</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                ACEPTADO, ANULADO, NO EXISTE, AUTORIZADO o NO AUTORIZADO
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >descripcion_tipo</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                Factura, Boleta de venta, Nota de crédito o Nota de débito
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >monto_total</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                Monto total del comprobante (número)
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >fecha_emision</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                Fecha de emisión registrada en SUNAT (YYYY-MM-DD)
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >estado_contribuyente</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                Estado del emisor: ACTIVO, BAJA DEFINITIVA, etc.
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >condicion_domicilio</code
+              >
+              <p class="text-xs text-gray-500 pt-1">
+                Condición de domicilio del emisor: HABIDO, NO HALLADO, etc.
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code
+                class="text-xs bg-white border border-gray-200 text-blue-600 px-2 py-1 rounded font-mono shrink-0"
+                >fuente</code
+              >
+              <p class="text-xs text-gray-500 pt-1">Siempre "SUNAT"</p>
+            </div>
+          </div>
+        </div>
+
         <!-- Campos de respuesta DNI -->
         <div
           id="response-fields-dni"
@@ -1318,6 +1634,9 @@
         document
           .getElementById("endpoint-info-tipocambio")
           .classList.toggle("hidden", endpoint !== "tipocambio");
+        document
+          .getElementById("endpoint-info-cpe")
+          .classList.toggle("hidden", endpoint !== "cpe");
 
         // Actualizar campos de respuesta
         document
@@ -1329,6 +1648,9 @@
         document
           .getElementById("response-fields-tipocambio")
           .classList.toggle("hidden", endpoint !== "tipocambio");
+        document
+          .getElementById("response-fields-cpe")
+          .classList.toggle("hidden", endpoint !== "cpe");
 
         // Actualizar paneles de código
         document
@@ -1342,6 +1664,9 @@
           .forEach((p) =>
             p.classList.toggle("hidden", endpoint !== "tipocambio"),
           );
+        document
+          .querySelectorAll(".tab-panel-cpe")
+          .forEach((p) => p.classList.toggle("hidden", endpoint !== "cpe"));
 
         // Resetear tabs al de cURL
         showTab("curl");
@@ -1468,6 +1793,10 @@
                 DNI
               </li>
               <li class="flex items-center gap-2">
+                <span class="text-green-500">✓</span> Validación de Comprobantes
+                (Factura, Boleta, Nota de crédito, etc.)
+              </li>
+              <li class="flex items-center gap-2">
                 <span class="text-green-500">✓</span> Documentación y ejemplos
               </li>
               <li class="flex items-center gap-2">
@@ -1528,6 +1857,10 @@
 
               <li class="flex items-center gap-2">
                 <span class="text-white">✓</span> Datos completos del RUC y DNI
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">✓</span> Validación de Comprobantes
+                (Factura, Boleta, Nota de crédito, etc.)
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-white">✓</span> Documentación y ejemplos
