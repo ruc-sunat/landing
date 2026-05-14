@@ -1750,6 +1750,7 @@
             <a
               href="https://app.consultaperuapi.com"
               target="_blank"
+              onclick="gtag('event', 'click_pricing', {plan: 'free', location: 'landing'})"
               class="block text-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 px-4 rounded-xl text-sm transition-colors"
             >
               Empezar gratis
@@ -1809,6 +1810,7 @@
             <a
               href="https://app.consultaperuapi.com/dashboard/planes"
               target="_blank"
+              onclick="gtag('event', 'click_pricing', {plan: 'starter', location: 'landing'})"
               class="block text-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 px-4 rounded-xl text-sm transition-colors"
             >
               Suscribirse al Starter
@@ -1881,6 +1883,7 @@
             <a
               href="https://app.consultaperuapi.com/dashboard/planes"
               target="_blank"
+              onclick="gtag('event', 'click_pricing', {plan: 'pro', location: 'landing'})"
               class="block text-center bg-white hover:bg-gray-50 text-blue-600 font-semibold py-2.5 px-4 rounded-xl text-sm transition-colors"
             >
               Suscribirse al Pro
@@ -1927,6 +1930,20 @@
             document.getElementById("pro-ahorro").className =
               "mb-2 " + (isAnnual ? "" : "hidden");
           }
+
+          (function () {
+            var seen = false;
+            new IntersectionObserver(function (entries) {
+              if (!seen && entries[0].isIntersecting) {
+                seen = true;
+                gtag('event', 'page_view', {
+                  page_title: 'Precios',
+                  page_path: '/pricing',
+                  page_location: window.location.origin + '/pricing'
+                });
+              }
+            }, { threshold: 0.3 }).observe(document.getElementById('precios'));
+          })();
         </script>
       </div>
     </section>
