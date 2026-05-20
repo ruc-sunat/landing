@@ -2041,7 +2041,7 @@
                 posts(first: $first) {
                   edges {
                     node {
-                      title slug brief publishedAt readTimeInMinutes
+                      id title slug brief publishedAt readTimeInMinutes
                       coverImage { url }
                       tags { name }
                       url
@@ -2125,6 +2125,7 @@
               return r.json();
             })
             .then(function (data) {
+              if (data.errors) console.error('[Blog] Hashnode API errors:', data.errors);
               document.getElementById("blog-loading").classList.add("hidden");
               var edges =
                 (data.data &&
@@ -2143,7 +2144,8 @@
               });
               container.classList.remove("hidden");
             })
-            .catch(function () {
+            .catch(function (err) {
+              console.error('[Blog] Fetch failed:', err);
               document.getElementById("blog-loading").classList.add("hidden");
               document.getElementById("blog-empty").classList.remove("hidden");
             });

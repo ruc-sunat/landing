@@ -151,7 +151,7 @@
         <!-- Sin posts -->
         <div id="blog-empty" class="hidden text-center py-24">
           <p class="text-gray-400 text-sm mb-4">No hay artículos publicados aún.</p>
-          <a href="index.html" class="text-blue-600 text-sm hover:underline">← Volver al inicio</a>
+          <a href="https://consultaperuapi.hashnode.dev" target="_blank" rel="noopener" class="text-blue-600 text-sm hover:underline">Ver blog en Hashnode →</a>
         </div>
       </div>
     </main>
@@ -184,7 +184,7 @@
               posts(first: $first) {
                 edges {
                   node {
-                    title slug brief publishedAt readTimeInMinutes
+                    id title slug brief publishedAt readTimeInMinutes
                     coverImage { url }
                     tags { name }
                     url
@@ -234,6 +234,7 @@
         })
           .then(function (r) { return r.json(); })
           .then(function (data) {
+            if (data.errors) console.error('[Blog] Hashnode API errors:', data.errors);
             document.getElementById("blog-loading").classList.add("hidden");
             var edges = (data.data && data.data.publication && data.data.publication.posts.edges) || [];
             var container = document.getElementById("blog-posts");
@@ -246,7 +247,8 @@
             });
             container.classList.remove("hidden");
           })
-          .catch(function () {
+          .catch(function (err) {
+            console.error('[Blog] Fetch failed:', err);
             document.getElementById("blog-loading").classList.add("hidden");
             document.getElementById("blog-empty").classList.remove("hidden");
           });
