@@ -2030,27 +2030,7 @@
 
       <script>
         (function () {
-          // ⚠️ Reemplaza con el host de tu publicación en Hashnode
-          // Ejemplo: "tuconsulta.hashnode.dev" o tu dominio personalizado
-          var HASHNODE_HOST =
-            window.HASHNODE_PUBLICATION_HOST || "consultaperuapi.hashnode.dev";
-
-          var query = `
-            query GetPosts($host: String!, $first: Int!) {
-              publication(host: $host) {
-                posts(first: $first) {
-                  edges {
-                    node {
-                      id title slug brief publishedAt readTimeInMinutes
-                      coverImage { url }
-                      tags { name }
-                      url
-                    }
-                  }
-                }
-              }
-            }
-          `;
+          var BLOG_API = "https://app.consultaperuapi.com/api/blog?limit=3";
 
           function formatDate(iso) {
             return new Date(iso).toLocaleDateString("es-PE", {
@@ -2113,34 +2093,22 @@
             );
           }
 
-          fetch("https://gql.hashnode.com", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              query: query,
-              variables: { host: HASHNODE_HOST, first: 3 },
-            }),
-          })
+          fetch(BLOG_API)
             .then(function (r) {
               return r.json();
             })
             .then(function (data) {
-              if (data.errors) console.error('[Blog] Hashnode API errors:', data.errors);
               document.getElementById("blog-loading").classList.add("hidden");
-              var edges =
-                (data.data &&
-                  data.data.publication &&
-                  data.data.publication.posts.edges) ||
-                [];
+              var posts = (data && data.posts) || [];
               var container = document.getElementById("blog-posts");
-              if (edges.length === 0) {
+              if (posts.length === 0) {
                 document
                   .getElementById("blog-empty")
                   .classList.remove("hidden");
                 return;
               }
-              edges.forEach(function (e) {
-                container.innerHTML += buildCard(e.node);
+              posts.forEach(function (post) {
+                container.innerHTML += buildCard(post);
               });
               container.classList.remove("hidden");
             })
